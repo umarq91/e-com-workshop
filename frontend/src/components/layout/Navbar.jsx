@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {Link} from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
 
 
 const navigation = [
@@ -14,6 +15,9 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const dispatch = useDispatch()
+
+  const cart = useSelector(state=>state.cart.cart)
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -32,6 +36,7 @@ export default function Navbar() {
                   )}
                 </Disclosure.Button>
               </div>
+             
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <Link  to={"/"} className="flex flex-shrink-0 items-center">
                   <img
@@ -59,14 +64,22 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <Link to={"/cart"}>
+
                 <button
                   type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
+                  className="relative  rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+</svg>
+
+                  <h2 className='absolute -top-1 rounded-full  right-1 text-white'>{cart.length}</h2>
+                
                 </button>
+                  </Link>
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">

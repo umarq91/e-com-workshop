@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import {Link} from "react-router-dom"
 import axios from "axios"
-import { fetchProducts } from '../features/productSlice'
+import { fetchProducts } from '../features/products/productSlice'
 import {useSelector,useDispatch} from "react-redux"
+import { addCart, removeCart } from '../features/cart/cartSlice'
 
 function Products() {
 const dispatch = useDispatch()
@@ -13,6 +14,9 @@ useEffect(()=>{
 dispatch(fetchProducts())
 },[])
 
+const handleAddCart = (product) => {
+  dispatch(addCart(product))
+}
 
   return (
           <div className="bg-white">
@@ -22,6 +26,7 @@ dispatch(fetchProducts())
                 {loading && <div>Loading...</div>}
                 {error && <div>{error}</div>}
                 {products?.map((product) => (
+                  <div className='flex flex-col'>
                   <Link to={`/product/${product.id}`} key={product.id} className="group relative">
                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                       <img
@@ -43,6 +48,8 @@ dispatch(fetchProducts())
                       <p className="text-sm font-medium text-gray-900">{product.price}$</p>
                     </div>
                   </Link>
+                  <button onClick={() => handleAddCart(product)} className='bg-blue-400 py-1 px-5 text-white'>Add to Cart</button>
+                  </div>
                 ))}
               </div>
             </div>

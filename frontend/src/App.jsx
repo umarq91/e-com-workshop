@@ -6,6 +6,7 @@ import Navbar from './components/layout/Navbar'
 import SingleProduct from './pages/SingleProduct'
 import NotFound from './pages/NotFound'
 import Footer from './components/layout/Footer'
+import CartPage from './pages/CartPage'
 function App() {
   return (
     <div>
@@ -17,6 +18,8 @@ function App() {
 
       <Route path='/' element={<MainPage />}/>
       <Route path='/product/:id' element={<SingleProduct />}/>
+      <Route path='/cart' element={<CartPage />}/>
+
 
       <Route path='/*' element={<NotFound/>} />
 
