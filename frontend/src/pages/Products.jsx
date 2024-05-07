@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import {Link} from "react-router-dom"
 import axios from "axios"
+import { fetchProducts } from '../features/productSlice'
+import {useSelector,useDispatch} from "react-redux"
+
 function Products() {
+const dispatch = useDispatch()
+const {products,loading,error} = useSelector(state=>state.products)
 
-  const [products,setProducts] = useState([])
+
 useEffect(()=>{
-  const getData = async()=>{
-  const data =   await axios.get('https://fakestoreapi.com/products')
-  setProducts(data.data)
-  }
-  getData()
+dispatch(fetchProducts())
 },[])
-
-
 
 
   return (
@@ -20,7 +19,9 @@ useEffect(()=>{
             <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:pb-24 lg:max-w-7xl lg:px-8">
       
               <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-                {products.map((product) => (
+                {loading && <div>Loading...</div>}
+                {error && <div>{error}</div>}
+                {products?.map((product) => (
                   <Link to={`/product/${product.id}`} key={product.id} className="group relative">
                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                       <img

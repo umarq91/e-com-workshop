@@ -22,25 +22,13 @@ const filters = [
     id: 'category',
     name: 'Category',
     options: [
-      { value: 'new-arrivals', label: 'New Arrivals', checked: false },
-      { value: 'sale', label: 'Sale', checked: false },
-      { value: 'travel', label: 'Travel', checked: true },
-      { value: 'organization', label: 'Organization', checked: false },
-      { value: 'accessories', label: 'Accessories', checked: false },
+      { value: "men's clothing", label: "men's clothing", checked: false },
+      { value: 'jewelery', label: 'jewelery', checked: false },
+      { value: "electronics", label: 'electronics', checked: true },
+      { value: "women's clothing", label: "women's clothing", checked: false },
     ],
   },
-  {
-    id: 'brand',
-    name: 'brand',
-    options: [
-      { value: '2l', label: '2L', checked: false },
-      { value: '6l', label: '6L', checked: false },
-      { value: '12l', label: '12L', checked: false },
-      { value: '18l', label: '18L', checked: false },
-      { value: '20l', label: '20L', checked: false },
-      { value: '40l', label: '40L', checked: true },
-    ],
-  },
+
 ]
 
 function classNames(...classes) {
