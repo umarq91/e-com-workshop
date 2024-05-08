@@ -2,6 +2,7 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 // Define the initial state
 const initialState = {
@@ -48,3 +49,4 @@ const productSlice = createSlice({
 // Export the actions and reducer
 export const {} = productSlice.actions;
 export default productSlice.reducer;
+

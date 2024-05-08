@@ -18,6 +18,7 @@ export default function Navbar() {
   const dispatch = useDispatch()
 
   const cart = useSelector(state=>state.cart.cart)
+  console.log(cart);
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (

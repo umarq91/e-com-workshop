@@ -7,11 +7,15 @@ import SingleProduct from './pages/SingleProduct'
 import NotFound from './pages/NotFound'
 import Footer from './components/layout/Footer'
 import CartPage from './pages/CartPage'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <div>
 
     <BrowserRouter>
+    <ToastContainer />
     <Navbar/>
       <Routes>
 

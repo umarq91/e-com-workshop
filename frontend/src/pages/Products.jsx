@@ -4,6 +4,7 @@ import axios from "axios"
 import { fetchProducts } from '../features/products/productSlice'
 import {useSelector,useDispatch} from "react-redux"
 import { addCart, removeCart } from '../features/cart/cartSlice'
+import { toast } from 'react-toastify'
 
 function Products() {
 const dispatch = useDispatch()
@@ -15,7 +16,10 @@ dispatch(fetchProducts())
 },[])
 
 const handleAddCart = (product) => {
-  dispatch(addCart(product))
+  // Todo : send the user Id along with quanity and when added in Cart 
+  const newObj = {...product,quantity:1}
+  dispatch(addCart(newObj))
+  toast.success("Item added to cart")
 }
 
   return (
