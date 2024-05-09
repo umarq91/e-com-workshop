@@ -25,6 +25,21 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
+
+// Define the thunk for fetching products from the API
+export const fetchProductsBySearch = createAsyncThunk(
+  'products/fetchProductsBySearch',
+  async (search) => {
+    try {
+      const response = await axios.get('https://dummyjson.com/products/search?q='+search);
+
+      return response.data.products; // axios automatically parses JSON response
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 // Create the product slice
 const productSlice = createSlice({
   name: 'products',
@@ -41,6 +56,20 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = "Something went wrong!";
+      })
+
+      
+      .addCase(fetchProductsBySearch.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchProductsBySearch.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action.payload;
+        state.error = null;
+      })
+      .addCase(fetchProductsBySearch.rejected, (state, action) => {
         state.loading = false;
         state.error = "Something went wrong!";
       });

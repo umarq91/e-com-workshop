@@ -23,7 +23,7 @@ const handleAddCart = (product) => {
     position:"bottom-left"
    })
 }
-console.log(products);
+
   return (
           <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:pb-24 lg:max-w-7xl lg:px-8">

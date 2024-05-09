@@ -1,8 +1,9 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {Link} from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
+import { fetchProducts, fetchProductsBySearch } from '../../features/products/productSlice'
 
 
 const navigation = [
@@ -15,10 +16,25 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const [input,setInput] = useState("")
   const dispatch = useDispatch()
   const cart = useSelector(state=>state.cart.cart)
 
+const handleInput=(e)=>{
+  let value = e.target.value
+  setInput(value)
+
+  setTimeout(()=>{
+    if(input.length==0){
+      dispatch(fetchProducts)
+    }else{
+      dispatch(fetchProductsBySearch(value))
+    }    
+  },2000)
+
+}
   
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -64,6 +80,8 @@ export default function Navbar() {
                   </div>
                 </div>
               </div>
+      <input type="text" className='h-8 text-black'  value={input} onChange={(e)=>handleInput(e)} />
+
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <Link to="/cart" className="relative">
       <button
@@ -170,6 +188,7 @@ export default function Navbar() {
                 </Disclosure.Button>
               ))}
             </div>
+             
           </Disclosure.Panel>
         </>
       )}
