@@ -12,7 +12,7 @@ export default function CartPage() {
  const cart =  useSelector(state=>state.cart.cart)
 const totalAmount = cart?.reduce((acc,product)=>acc+product.price*product.quantity,0)
   const totalItems = cart?.reduce((acc,product)=>acc+product.quantity,0)
-  
+
 const handleRemove=(id)=>{
   dispatch(removeCart(id))
 }
@@ -37,7 +37,7 @@ dispatch(updateCart(obj))
                         <li key={product.id} className="flex py-6">
                           <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                             <img
-                              src={product.image}
+                              src={product.thumbnail}
                               alt={product.title}
                               className="h-full w-full object-cover object-center"
                             />

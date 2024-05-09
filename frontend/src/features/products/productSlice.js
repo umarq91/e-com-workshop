@@ -16,8 +16,9 @@ export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
     try {
-      const response = await axios.get('https://fakestoreapi.com/products');
-      return response.data;
+      const response = await axios.get('https://dummyjson.com/products');
+
+      return response.data.products; // axios automatically parses JSON response
     } catch (error) {
       throw error;
     }

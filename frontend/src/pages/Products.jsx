@@ -19,9 +19,11 @@ const handleAddCart = (product) => {
   // Todo : send the user Id along with quanity and when added in Cart 
   const newObj = {...product,quantity:1}
   dispatch(addCart(newObj))
-  toast.success("Item added to cart")
+   toast.success("Item added to cart",{
+    position:"bottom-left"
+   })
 }
-
+console.log(products);
   return (
           <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:pb-24 lg:max-w-7xl lg:px-8">
@@ -34,7 +36,7 @@ const handleAddCart = (product) => {
                   <Link to={`/product/${product.id}`} key={product.id} className="group relative">
                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                       <img
-                        src={product.image}
+                        src={product.thumbnail}
                         alt={product.image}
                         className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                       />
@@ -47,7 +49,7 @@ const handleAddCart = (product) => {
                             {product.title}
                           </a>
                         </h3>
-                        <p className="mt-1 text-sm text-gray-500"> rating :{product.rating.rate}</p>
+                        <p className="mt-1 text-sm text-gray-500"> rating :{product.rating}</p>
                       </div>
                       <p className="text-sm font-medium text-gray-900">{product.price}$</p>
                     </div>
