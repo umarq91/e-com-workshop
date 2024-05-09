@@ -1,7 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchSingleProduct } from '../features/products/productSlice'
+import { useParams } from 'react-router-dom'
+import { addCart } from '../features/cart/cartSlice'
 const product = {
   name: 'Basic Tee 6-Pack',
   price: '$192',
@@ -63,17 +66,34 @@ function classNames(...classes) {
 export default function SingleProduct() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0])
   const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+const dispatch = useDispatch()
+const {id} = useParams()
 
-  return (
+
+useEffect(()=>{
+  dispatch(fetchSingleProduct(id))
+},[])
+const currentProduct = useSelector((state)=>state.products.selectedProduct)
+
+const handleAddTocart=(e)=>{
+  e.preventDefault()
+  dispatch(addCart(currentProduct))
+
+}
+
+
+if(!currentProduct) return 
+return (
     <div className="bg-white">
       <div className="pt-6">
+        {/* Bread */}
         <nav aria-label="Breadcrumb">
           <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            {product.breadcrumbs.map((breadcrumb) => (
-              <li key={breadcrumb.id}>
+            
+              <li key={32}>
                 <div className="flex items-center">
-                  <a href={breadcrumb.href} className="mr-2 text-sm font-medium text-gray-900">
-                    {breadcrumb.name}
+                  <a href={"as"} className="mr-2 text-sm font-medium text-gray-900">
+                    {currentProduct.category}
                   </a>
                   <svg
                     width={16}
@@ -87,10 +107,10 @@ export default function SingleProduct() {
                   </svg>
                 </div>
               </li>
-            ))}
+         
             <li className="text-sm">
               <a href={product.href} aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">
-                {product.name}
+                {currentProduct?.title}
               </a>
             </li>
           </ol>
@@ -100,31 +120,31 @@ export default function SingleProduct() {
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
             <img
-              src={product.images[0].src}
-              alt={product.images[0].alt}
+              src={currentProduct.images[0]}
+              alt={currentProduct.images[0]}
               className="h-full w-full object-cover object-center"
             />
           </div>
           <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
             <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
               <img
-                src={product.images[1].src}
-                alt={product.images[1].alt}
+                src={currentProduct.images[1]}
+                alt={currentProduct.images[1]}
                 className="h-full w-full object-cover object-center"
               />
             </div>
             <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
               <img
-                src={product.images[2].src}
-                alt={product.images[2].alt}
+                src={currentProduct.images[2]}
+                alt={currentProduct.images[2]}
                 className="h-full w-full object-cover object-center"
               />
             </div>
           </div>
           <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
             <img
-              src={product.images[3].src}
-              alt={product.images[3].alt}
+              src={product.images[3] || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdMwB-elN1uzrkrRoJ-gyaUw0LDAJEbiPRipU8-ppX0Q&s"} 
+              alt={product.images[3] || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdMwB-elN1uzrkrRoJ-gyaUw0LDAJEbiPRipU8-ppX0Q&s"} 
               className="h-full w-full object-cover object-center"
             />
           </div>
@@ -264,10 +284,11 @@ export default function SingleProduct() {
               </div>
 
               <button
-                type="submit"
+              
+                onClick={(e)=>handleAddTocart(e)}
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
-                Add to bag
+                Add to Cart
               </button>
             </form>
           </div>
