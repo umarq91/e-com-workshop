@@ -10,7 +10,6 @@ function Products() {
 const dispatch = useDispatch()
 const {products,loading,error} = useSelector(state=>state.products)
 
-
 useEffect(()=>{
 dispatch(fetchProducts())
 },[])
@@ -23,6 +22,8 @@ const handleAddCart = (product) => {
     position:"bottom-left"
    })
 }
+
+
 
   return (
           <div className="bg-white">

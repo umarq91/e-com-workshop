@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchSingleProduct } from '../features/products/productSlice'
 import { useParams } from 'react-router-dom'
 import { addCart } from '../features/cart/cartSlice'
-const product = {
+
+const varity = {
   name: 'Basic Tee 6-Pack',
   price: '$192',
   href: '#',
@@ -64,8 +65,8 @@ function classNames(...classes) {
 }
 
 export default function SingleProduct() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0])
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+  const [selectedColor, setSelectedColor] = useState(varity.colors[0])
+  const [selectedSize, setSelectedSize] = useState(varity.sizes[2])
 const dispatch = useDispatch()
 const {id} = useParams()
 
@@ -73,16 +74,16 @@ const {id} = useParams()
 useEffect(()=>{
   dispatch(fetchSingleProduct(id))
 },[])
-const currentProduct = useSelector((state)=>state.products.selectedProduct)
+const product = useSelector((state)=>state.products.selectedProduct)
 
 const handleAddTocart=(e)=>{
   e.preventDefault()
-  dispatch(addCart(currentProduct))
+  dispatch(addCart(product))
 
 }
 
 
-if(!currentProduct) return 
+if(!product) return 
 return (
     <div className="bg-white">
       <div className="pt-6">
@@ -93,7 +94,7 @@ return (
               <li key={32}>
                 <div className="flex items-center">
                   <a href={"as"} className="mr-2 text-sm font-medium text-gray-900">
-                    {currentProduct.category}
+                    {product.category}
                   </a>
                   <svg
                     width={16}
@@ -110,7 +111,7 @@ return (
          
             <li className="text-sm">
               <a href={product.href} aria-current="page" className="font-medium text-gray-500 hover:text-gray-600">
-                {currentProduct?.title}
+                {product?.title}
               </a>
             </li>
           </ol>
@@ -120,23 +121,23 @@ return (
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
             <img
-              src={currentProduct.images[0]}
-              alt={currentProduct.images[0]}
+              src={product.images[0]}
+              alt={product.images[0]}
               className="h-full w-full object-cover object-center"
             />
           </div>
           <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
             <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
               <img
-                src={currentProduct.images[1]}
-                alt={currentProduct.images[1]}
+                src={product.images[1]}
+                alt={product.images[1]}
                 className="h-full w-full object-cover object-center"
               />
             </div>
             <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
               <img
-                src={currentProduct.images[2]}
-                alt={currentProduct.images[2]}
+                src={product.images[2]}
+                alt={product.images[2]}
                 className="h-full w-full object-cover object-center"
               />
             </div>
@@ -192,7 +193,7 @@ return (
                 <RadioGroup value={selectedColor} onChange={setSelectedColor} className="mt-4">
                   <RadioGroup.Label className="sr-only">Choose a color</RadioGroup.Label>
                   <div className="flex items-center space-x-3">
-                    {product.colors.map((color) => (
+                    {varity.colors.map((color) => (
                       <RadioGroup.Option
                         key={color.name}
                         value={color}
@@ -233,7 +234,7 @@ return (
                 <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-4">
                   <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
                   <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                    {product.sizes.map((size) => (
+                    {varity.sizes.map((size) => (
                       <RadioGroup.Option
                         key={size.name}
                         value={size}
@@ -308,7 +309,7 @@ return (
 
               <div className="mt-4">
                 <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                  {product.highlights.map((highlight) => (
+                  {varity.highlights.map((highlight) => (
                     <li key={highlight} className="text-gray-400">
                       <span className="text-gray-600">{highlight}</span>
                     </li>
@@ -321,7 +322,7 @@ return (
               <h2 className="text-sm font-medium text-gray-900">Details</h2>
 
               <div className="mt-4 space-y-6">
-                <p className="text-sm text-gray-600">{product.details}</p>
+                <p className="text-sm text-gray-600">{product.description}</p>
               </div>
             </div>
           </div>

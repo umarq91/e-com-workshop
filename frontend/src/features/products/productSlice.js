@@ -17,9 +17,9 @@ export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
     try {
-      const response = await axios.get('https://dummyjson.com/products');
+      const response = await axios.get('http://localhost:8080/products');
 
-      return response.data.products; // axios automatically parses JSON response
+      return response.data; // axios automatically parses JSON response
     } catch (error) {
       throw error;
     }
@@ -46,7 +46,7 @@ export const fetchSingleProduct = createAsyncThunk(
   'products/fetchSingleProduct',
   async (id) => {
     try {
-      const response = await axios.get('https://dummyjson.com/products/'+id);
+      const response = await axios.get('http://localhost:8080/products/'+id);
 
       return response.data; // axios automatically parses JSON response
     } catch (error) {
@@ -55,6 +55,22 @@ export const fetchSingleProduct = createAsyncThunk(
   }
 );
 
+export const fetchProductByFilter = createAsyncThunk(
+  'products/fetchProductByFilter',
+  async (filter) => {
+    try {
+      let qs = ''
+      for(let key in filter){
+        qs += `${key}=${filter[key]}&`
+      }
+      console.log(qs);
+      const response = await axios.get('http://localhost:8080/products?'+qs);
+      return response.data; // axios automatically parses JSON response
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 // Create the product slice
 const productSlice = createSlice({
   name: 'products',
@@ -101,7 +117,17 @@ const productSlice = createSlice({
       .addCase(fetchSingleProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = "Something went wrong!";
-      });
+      })
+
+
+      .addCase(fetchProductByFilter.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchProductByFilter.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action.payload;
+        state.error = null;
+      })
   },
 });
 
