@@ -10,6 +10,7 @@ import CartPage from './pages/CartPage'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CheckOutPage from './pages/CheckOutPage'
 function App() {
   return (
     <div>
@@ -23,6 +24,9 @@ function App() {
       <Route path='/' element={<MainPage />}/>
       <Route path='/product/:id' element={<SingleProduct />}/>
       <Route path='/cart' element={<CartPage />}/>
+      <Route path='/checkout' element={<CheckOutPage />}/>
+
+
 
 
       <Route path='/*' element={<NotFound/>} />

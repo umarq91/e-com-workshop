@@ -47,6 +47,9 @@ const cartSlice = createSlice({
         state.cart[existingProductIndex].quantity = quantity;  
       }
       
+    },
+    emptyCart(state,action) {
+      state.cart = []
     }
   },
 //   extraReducers: (builder) => {
@@ -67,5 +70,5 @@ const cartSlice = createSlice({
 });
 
 // Export the actions and reducer
-export const {addCart,removeCart,updateCart} = cartSlice.actions;
+export const {addCart,removeCart,updateCart,emptyCart} = cartSlice.actions;
 export default cartSlice.reducer;
