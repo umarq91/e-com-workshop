@@ -7,7 +7,7 @@ import {useForm} from "react-hook-form"
 import { createOrder } from "../features/order/orderSlice";
 import { emptyCart } from "../features/cart/cartSlice";
 // import { createOrderAsync, selectCurrentOrder } from "../features/order/orderSlice";
-
+// import toast from "react-toastify"
 
 
 
@@ -58,7 +58,8 @@ function CheckOutPage() {
        // Todo : after order redirect to order success , remove items from cart  , on server change the number of stocs too..
        dispatch(createOrder(order))
        dispatch(emptyCart())
-        window.location.href="/"
+        // toast.success('Order Successfully Placed')
+       
       };
 
 
