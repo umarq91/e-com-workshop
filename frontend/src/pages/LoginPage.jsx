@@ -13,12 +13,11 @@ const [error,setError]=React.useState("")
 const navigate= useNavigate()
 const userInfo = useSelector((state)=>state.auth.userInfo)
 
-
-useEffect(()=>{
-  if(userInfo){
-    navigate('/')
-  }
-})
+// useEffect(()=>{
+//   if(userInfo){
+//     navigate('/')
+//   }
+// },[userInfo])
 
 const handleLogin=async(e)=>{
     e.preventDefault()

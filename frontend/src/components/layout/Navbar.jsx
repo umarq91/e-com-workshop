@@ -1,9 +1,11 @@
 import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProducts, fetchProductsBySearch } from '../../features/products/productSlice'
+import { logout } from '../../features/auth/authSlice'
+import axios from 'axios'
 
 
 const navigation = [
@@ -19,6 +21,8 @@ export default function Navbar() {
   const [input,setInput] = useState("")
   const dispatch = useDispatch()
   const cart = useSelector(state=>state.cart.cart)
+const navigate = useNavigate()
+
 
 const handleInput=(e)=>{
   let value = e.target.value
@@ -34,6 +38,14 @@ const handleInput=(e)=>{
 
 }
   
+
+const handleLogout =async()=>{
+  await axios.get(`${import.meta.env.VITE_BACKEND}/auth/logout`)
+if(status=200){
+  dispatch(logout())
+  window.location.reload()
+}
+}
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -157,7 +169,7 @@ const handleInput=(e)=>{
                       <Menu.Item>
                         {({ active }) => (
                           <button
-                           
+                            onClick={handleLogout}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Sign out

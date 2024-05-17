@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 // Define the initial state
 const initialState = {
-  userInfo:{}
+  userInfo:null
 };
 
 // Define the thunk for fetching products from the API
@@ -60,6 +60,9 @@ const authSlice = createSlice({
   reducers: {
     login: (state,action) => {
       state.userInfo = action.payload
+    },
+    logout: (state) => {
+      state.userInfo = null
     }
   },
   extraReducers: (builder) => {
@@ -72,6 +75,6 @@ const authSlice = createSlice({
 });
 
 // Export the actions and reducer
-export const {login} = authSlice.actions;
+export const {login,logout} = authSlice.actions;
 export default authSlice.reducer;
 

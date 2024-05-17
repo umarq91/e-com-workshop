@@ -48,3 +48,26 @@ export const signIn = async (req, res, next) => {
     }
   };
   
+
+  
+export const userVerification = (req, res) => {
+  const { token } = req.cookies;
+  if (token) {
+    jwt.verify(token, process.env.jwtSecret, {}, async (err, usertoken) => {
+      if (err) throw err;
+      const { name, email, _id,isAdmin,addresses } = await UserModel.findById(
+        usertoken.id
+      );
+
+      res.json({ name, email, _id,isAdmin,addresses });
+    });
+  }
+};
+
+export const userLogout = (req, res) => {
+  console.log(req.cookies);
+  console.log("Logout Req coming");
+  res
+    .clearCookie("token", { secure: true, httpOnly: true, sameSite: "none" })
+    .send({ message: "Cookies Cleared Successfully" });
+};
