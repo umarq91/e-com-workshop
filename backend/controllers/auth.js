@@ -65,7 +65,7 @@ export const userVerification = (req, res) => {
 };
 
 export const userLogout = (req, res) => {
-  console.log(req.cookies);
+
   console.log("Logout Req coming");
   res
     .clearCookie("token", { secure: true, httpOnly: true, sameSite: "none" })
