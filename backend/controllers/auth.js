@@ -32,9 +32,7 @@ export const signIn = async (req, res, next) => {
       if (!validpassword) return next(customError(401, "passord did not matched"));
       const { password: hashedpassword, ...rest } = validUser._doc;
   
-      const token = jwt.sign({ id: validUser._id }, process.env.jwtSecret, {
-        expiresIn: "1d",
-      });
+      const token = jwt.sign({ id: validUser._id }, process.env.jwtSecret, {expiresIn: "1d"});
       
       res
         .cookie("token", token, {

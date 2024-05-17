@@ -38,21 +38,18 @@ useEffect(()=>{
     <ToastContainer />
     <Navbar/>
   
+
       <Routes>
-
-
       <Route path='/' element={<MainPage />}/>
       <Route path='/product/:id' element={<SingleProduct />}/>
       <Route path='/cart' element={<CartPage />}/>
       <Route path='/checkout' element={<CheckOutPage />}/>
       <Route path='/sign-in' element={<LoginPage />}/>
-
       <Route path='/*' element={<NotFound/>} />
-
-
-
       </Routes>
     
+
+  
       <Footer/>
     </BrowserRouter>
 
