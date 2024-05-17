@@ -1,6 +1,7 @@
 import { UserModel } from "../models/UserModel.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
+import { customError } from "../utils/CustomError.js";
 let salt = bcrypt.genSaltSync(10);
 export const createUser =async(req,res)=>{
     const {name,email,password,phone,addresses}=req.body
@@ -22,11 +23,11 @@ export const signIn = async (req, res, next) => {
     try {
       let validUser = await UserModel.findOne({ email });
       // TODO : error Handling
-    //   if (!validUser) return next(customError(401, "User not Found"));
+      if (!validUser) return next(customError(400, "User not Found"));
+     
   
-    //   let validpassword = bcrypt.compareSync(password, validUser.password);
-    //   if (!validpassword)
-    //     return next(customError(401, "passord did not matched"));
+      let validpassword = bcrypt.compareSync(password, validUser.password);
+      if (!validpassword) return next(customError(401, "passord did not matched"));
       const { password: hashedpassword, ...rest } = validUser._doc;
   
       const token = jwt.sign({ id: validUser._id }, process.env.jwtSecret, {
