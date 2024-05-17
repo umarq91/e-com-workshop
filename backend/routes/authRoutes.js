@@ -5,6 +5,6 @@ import { createUser, signIn } from "../controllers/auth.js";
 const router = Router();
 
 router.post('/',createUser)
-router.get('/',signIn)
+router.post('/sign-in',signIn)
 
 export default router

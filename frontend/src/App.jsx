@@ -11,6 +11,7 @@ import CartPage from './pages/CartPage'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CheckOutPage from './pages/CheckOutPage'
+import LoginPage from './pages/LoginPage'
 function App() {
   return (
     <div>
@@ -25,6 +26,8 @@ function App() {
       <Route path='/product/:id' element={<SingleProduct />}/>
       <Route path='/cart' element={<CartPage />}/>
       <Route path='/checkout' element={<CheckOutPage />}/>
+      <Route path='/sign-in' element={<LoginPage />}/>
+
 
 
 

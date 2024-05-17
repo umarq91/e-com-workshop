@@ -4,23 +4,26 @@ import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
 import env from "dotenv"
 import { connectDB } from "./db/db.js"
-import userRoutes from "./routes/UserRoutes.js"
+import authRoutes from "./routes/authRoutes.js"
 import ProductRoutes from "./routes/ProductRoutes.js"
 env.config()
 
 
 const app = express()
-app.use(cors())
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true
+}))
 app.use(bodyParser.json())
 app.use(cookieParser())
-app.use(express.json())
+
 
 connectDB()
 
 app.listen(5000, () => console.log("server running on port 5000"))
 
 
-app.use('/api/v1/auth',userRoutes);
+app.use('/api/v1/auth',authRoutes);
 app.use('/api/v1/products',ProductRoutes);
 
 app.use((err,req,res,next)=>{
