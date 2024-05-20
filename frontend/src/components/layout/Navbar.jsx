@@ -34,7 +34,7 @@ const handleInput=(e)=>{
     }else{
       dispatch(fetchProductsBySearch(value))
     }    
-  },2000)
+  },3000)
 
 }
   

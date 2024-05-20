@@ -27,12 +27,42 @@ export const getProducts = async (req, res) => {
             query = query.find({brand:req.query.brand});
         }
 
-
         // TODO : Sorting and Pagination
-
         let docs = await query.exec()
         res.status(200).json(docs);
     }catch(err){
         console.log(err);
     }
+}
+
+export const fetchSingleProduct = async (req, res) => {
+
+    try {
+        const product = await ProductModel.findById(req.params.id);
+        res.status(200).json(product);
+    }catch(err){
+        console.log(err);
+    }
+}
+
+
+export const searchProduct = async (req, res) => {
+    
+const {q} = req.query
+// console.log(req.query);
+    try {
+        const data = await ProductModel.find({
+            $or: [
+                { name: { $regex: q, $options: "i" } },
+                { description: { $regex: q, $options: "i" } },
+                {category: { $regex: q, $options: "i" }},
+                {brand: { $regex: q, $options: "i" }},
+            ]
+        })
+
+        res.json(data)
+    } catch (error) {
+        console.log("Error");
+    }
+    
 }

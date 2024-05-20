@@ -43,9 +43,10 @@ const handleSort = (e,op) => {
 }
 
 useEffect(()=>{
-  console.log(filter);
   dispatch(fetchProductByFilter(filter))
 },[sort,filter])
+
+
   const handleFilter = (e,section,cat) => {
     const newFilter={...filter,_sort:sort}
   // {category: e.target.value} DONE

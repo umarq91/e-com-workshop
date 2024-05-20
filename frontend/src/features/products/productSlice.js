@@ -17,7 +17,7 @@ export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
     try {
-      const response = await axios.get('http://localhost:8080/products');
+      const response = await axios.get('http://localhost:5000/api/v1/products');
 
       return response.data; // axios automatically parses JSON response
     } catch (error) {
@@ -32,9 +32,9 @@ export const fetchProductsBySearch = createAsyncThunk(
   'products/fetchProductsBySearch',
   async (search) => {
     try {
-      const response = await axios.get('https://dummyjson.com/products/search?q='+search);
+      const response = await axios.get('http://localhost:5000/api/v1/products/search?q='+search);
 
-      return response.data.products; // axios automatically parses JSON response
+      return response.data; // axios automatically parses JSON response
     } catch (error) {
       throw error;
     }
@@ -46,7 +46,7 @@ export const fetchSingleProduct = createAsyncThunk(
   'products/fetchSingleProduct',
   async (id) => {
     try {
-      const response = await axios.get('http://localhost:8080/products/'+id);
+      const response = await axios.get('http://localhost:5000/api/v1/products/'+id);
 
       return response.data; // axios automatically parses JSON response
     } catch (error) {
@@ -63,8 +63,8 @@ export const fetchProductByFilter = createAsyncThunk(
       for(let key in filter){
         qs += `${key}=${filter[key]}&`
       }
-      console.log(qs);
-      const response = await axios.get('http://localhost:8080/products?'+qs);
+      const response = await axios.get('http://localhost:5000/api/v1/products?'+qs);
+      console.log(response);
       return response.data; // axios automatically parses JSON response
     } catch (error) {
       throw error;
