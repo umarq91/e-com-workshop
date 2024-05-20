@@ -28,6 +28,7 @@ export const getProducts = async (req, res) => {
         }
 
         // TODO : Sorting and Pagination
+  
         let docs = await query.exec()
         res.status(200).json(docs);
     }catch(err){
@@ -44,7 +45,6 @@ export const fetchSingleProduct = async (req, res) => {
         console.log(err);
     }
 }
-
 
 export const searchProduct = async (req, res) => {
     
@@ -65,4 +65,15 @@ const {q} = req.query
         console.log("Error");
     }
     
+}
+
+export const updateProduct = async (req, res) => {
+
+    const {id} = req.params
+    try {
+       const data = await ProductModel.findByIdAndUpdate(id,req.body,{new:true})
+       res.status(200).json(data)
+    }catch{
+console.log("error");
+    }
 }
