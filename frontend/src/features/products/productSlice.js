@@ -57,13 +57,13 @@ export const fetchSingleProduct = createAsyncThunk(
 
 export const fetchProductByFilter = createAsyncThunk(
   'products/fetchProductByFilter',
-  async (filter) => {
+  async ({filter,page}) => {
     try {
       let qs = ''
       for(let key in filter){
         qs += `${key}=${filter[key]}&`
       }
-      const response = await axios.get('http://localhost:5000/api/v1/products?'+qs);
+      const response = await axios.get('http://localhost:5000/api/v1/products?'+qs+`page=${page}`);
       console.log(response);
       return response.data; // axios automatically parses JSON response
     } catch (error) {

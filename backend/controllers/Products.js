@@ -28,8 +28,12 @@ export const getProducts = async (req, res) => {
         }
 
         // TODO : Sorting and Pagination
+
+        let itemsPerPage = 3;
+        let page = req.query.page  ||1
+ 
   
-        let docs = await query.exec()
+        let docs = await query.skip(page*itemsPerPage).limit(itemsPerPage).exec()
         res.status(200).json(docs);
     }catch(err){
         console.log(err);
