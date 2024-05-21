@@ -17,7 +17,6 @@ export const getProducts = async (req, res) => {
     try {
 
         let query =  ProductModel.find({});
-
         if(req.query.category){
             // category = smartphoens,laptops $in:[smartphones,laptops]
             query = query.find({ category: {$in:req.query.category.split(',')} });
@@ -29,11 +28,11 @@ export const getProducts = async (req, res) => {
 
         // TODO : Sorting and Pagination
 
-        let itemsPerPage = 3;
+       let limit = req.query.limit || 6
         let page = req.query.page  ||1
- 
+
   
-        let docs = await query.skip(page*itemsPerPage).limit(itemsPerPage).exec()
+        let docs = await query.skip((page - 1) * limit).limit(limit).exec()
         res.status(200).json(docs);
     }catch(err){
         console.log(err);

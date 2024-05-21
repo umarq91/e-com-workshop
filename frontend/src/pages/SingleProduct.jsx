@@ -3,7 +3,7 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchSingleProduct } from '../features/products/productSlice'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { addCart } from '../features/cart/cartSlice'
 
 const varity = {
@@ -69,8 +69,8 @@ export default function SingleProduct() {
   const [selectedSize, setSelectedSize] = useState(varity.sizes[2])
 const dispatch = useDispatch()
 const {id} = useParams()
-
-
+const user = useSelector((state)=>state.auth.userInfo)
+const navigate= useNavigate()
 useEffect(()=>{
   dispatch(fetchSingleProduct(id))
 },[])
@@ -78,6 +78,9 @@ const product = useSelector((state)=>state.products.selectedProduct)
 
 const handleAddTocart=(e)=>{
   e.preventDefault()
+    if(!user){
+      navigate('/sign-in')
+    }
   dispatch(addCart(product))
 
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import axios from "axios"
 import { fetchProducts } from '../features/products/productSlice'
 import {useSelector,useDispatch} from "react-redux"
@@ -9,14 +9,22 @@ import { toast } from 'react-toastify'
 function Products() {
 const dispatch = useDispatch()
 const {products,loading,error} = useSelector(state=>state.products)
-
+const user= useSelector((state)=>state.auth.userInfo)
+const navigate = useNavigate()
 useEffect(()=>{
 dispatch(fetchProducts())
 },[])
 
 const handleAddCart = (product) => {
   // Todo : send the user Id along with quanity and when added in Cart 
-  const newObj = {...product,quantity:1}
+  if(!user){
+    toast.error("Please Login First",{
+      position:"bottom-left"
+    })
+    navigate('/sign-in')
+    return
+  }
+  const newObj = {...product,quantity:1,user:user._id}
   dispatch(addCart(newObj))
    toast.success("Item added to cart",{
     position:"bottom-left"

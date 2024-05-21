@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 const initialState = {
   products: [],
   loading: false,
+  totalProducts:0,
   error: null,
   selectedProduct:null
 };
@@ -18,7 +19,6 @@ export const fetchProducts = createAsyncThunk(
   async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/v1/products');
-
       return response.data; // axios automatically parses JSON response
     } catch (error) {
       throw error;
@@ -85,6 +85,7 @@ const productSlice = createSlice({
         state.loading = false;
         state.products = action.payload;
         state.error = null;
+        state.totalProducts=action.payload.length
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
