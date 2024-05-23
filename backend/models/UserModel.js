@@ -11,5 +11,17 @@ const UserSchema  = new mongoose.Schema({
     timestamps:true
 })
 
+// _id to .id
+const virtualId  = UserSchema.virtual('id');
+virtualId.get(function(){
+    return this._id;
+})
+
+UserSchema.set('toJSON',{
+    virtuals: true,
+    versionKey: false,
+    transform: function (doc,ret) { delete ret._id}
+})
+
 export const UserModel = mongoose.model("User",UserSchema)
 

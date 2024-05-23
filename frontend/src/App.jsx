@@ -23,12 +23,11 @@ const dispatch=useDispatch()
 useEffect(()=>{
   const getData=async()=>{
     
-    // const data = await axios.get(`${import.meta.env.VITE_BACKEND}/auth/user`)
-    // if(data.status==200){
-    //   dispatch(login(data?.data))   
-    // }
-   const data=  await axios.get('http://localhost:5000/api/v1/products')
-
+    const data = await axios.get(`${import.meta.env.VITE_BACKEND}/auth/user`)
+    if(data.status==200){
+      dispatch(login(data?.data))   
+    }
+ 
   }
   getData()
 },[])

@@ -2,6 +2,7 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { fetchSingleProduct } from '../products/productSlice';
 
 // Define the initial state
 const initialState = {
@@ -23,6 +24,17 @@ export const addToCartAsync = createAsyncThunk(
   }
 );
 
+export const fetchCartAsync = createAsyncThunk(
+  'cart/fetchCarts',
+  async (userId) => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND}/cart?id=${userId}`);
+      return response.data; // axios automatically parses JSON response
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 
 // Define the thunk for fetching products from the API
 // export const fetchProducts = createAsyncThunk(
@@ -76,6 +88,15 @@ const cartSlice = createSlice({
       .addCase(addToCartAsync.fulfilled, (state, action) => {
         state.loading = false;
         state.cart.push(action.payload.product)
+        state.error = null;
+      })
+
+      .addCase(fetchCartAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCartAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart= action.payload
         state.error = null;
       })
 
