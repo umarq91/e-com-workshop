@@ -3,7 +3,7 @@ import {Link, useNavigate} from "react-router-dom"
 import axios from "axios"
 import { fetchProducts } from '../features/products/productSlice'
 import {useSelector,useDispatch} from "react-redux"
-import { addCart, removeCart } from '../features/cart/cartSlice'
+import { addCart, addToCartAsync, removeCart } from '../features/cart/cartSlice'
 import { toast } from 'react-toastify'
 
 function Products() {
@@ -16,6 +16,8 @@ dispatch(fetchProducts())
 },[])
 
 const handleAddCart = (product) => {
+  // const newObj = {...product,quantity:1,user:user._id}
+
   // Todo : send the user Id along with quanity and when added in Cart 
   if(!user){
     toast.error("Please Login First",{
@@ -24,8 +26,8 @@ const handleAddCart = (product) => {
     navigate('/sign-in')
     return
   }
-  const newObj = {...product,quantity:1,user:user._id}
-  dispatch(addCart(newObj))
+  let newObj = {product:product.id,quantity:1,user:user._id}
+  dispatch(addToCartAsync(newObj))
    toast.success("Item added to cart",{
     position:"bottom-left"
    })

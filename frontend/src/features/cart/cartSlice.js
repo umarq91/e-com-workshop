@@ -8,6 +8,22 @@ const initialState = {
     cart:[]
 };
 
+export const addToCartAsync = createAsyncThunk(
+  'cart/addtoCart',
+  async (data) => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND}/cart`,data);
+
+      return response.data; // axios automatically parses JSON response
+     
+      return data
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+
 // Define the thunk for fetching products from the API
 // export const fetchProducts = createAsyncThunk(
 //   'products/fetchProducts',
@@ -52,21 +68,18 @@ const cartSlice = createSlice({
       state.cart = []
     }
   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(fetchProducts.pending, (state) => {
-//         state.loading = true;
-//       })
-//       .addCase(fetchProducts.fulfilled, (state, action) => {
-//         state.loading = false;
-//         state.products = action.payload;
-//         state.error = null;
-//       })
-//       .addCase(fetchProducts.rejected, (state, action) => {
-//         state.loading = false;
-//         state.error = "Something went wrong!";
-//       });
-//   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(addToCartAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addToCartAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart.push(action.payload.product)
+        state.error = null;
+      })
+
+  },
 });
 
 // Export the actions and reducer
