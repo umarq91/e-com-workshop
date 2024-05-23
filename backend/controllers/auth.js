@@ -4,7 +4,7 @@ import bcrypt from "bcrypt"
 import { customError } from "../utils/CustomError.js";
 let salt = bcrypt.genSaltSync(10);
 export const createUser =async(req,res)=>{
-    const {name,email,password,phone,addresses}=req.body
+    const {name,email,password}=req.body
 try {
     
     let hashedpassword = bcrypt.hashSync(password, salt);

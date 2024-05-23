@@ -23,18 +23,18 @@ export const loginInfo = createAsyncThunk(
   }
 );
 
-export const SignUp = createAsyncThunk(
-    'products/signUp',
-    async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/products');
-  
-        return response.data; // axios automatically parses JSON response
-      } catch (error) {
-        throw error;
-      }
+export const signUp = createAsyncThunk(
+  'auth/signUp',
+  async ({ name, email, password }) => {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND}/sign-up`, { name, email, password });
+      return response.data;
+    } catch (error) {
+      throw error;
     }
-  );
+  }
+);
+
   
 
 // when page refreshes or loads it should goto userInfo
@@ -63,6 +63,9 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.userInfo = null
+    },
+    signUp: (state, action) => {
+      state.userInfo = action.payload
     }
   },
   extraReducers: (builder) => {
