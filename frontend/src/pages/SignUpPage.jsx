@@ -1,9 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { signUp } from "../features/auth/authSlice"; // Adjust the import path as needed
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+
+// Define the validation schema using zod
+const schema = z.object({
+  name: z.string().min(1, "Username is required"),
+  email: z.string().email("Invalid email address").nonempty("Email is required"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
+
 const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -11,18 +21,26 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
   const { loading, error } = useSelector((state) => state.auth);
 
-  const onSubmit = async(data) => {
-
-    const {name,email,password} = data
-   let res = await axios.post(`${import.meta.env.VITE_BACKEND}/auth/sign-up`, { name, email, password })
-    if(res.status==200){
-      toast.success('Account created successfully',{
-        position: 'bottom-left'
-      })
-      navigate('/sign-in')
+  const onSubmit = async (data) => {
+    const { name, email, password } = data;
+    try {
+      let res = await axios.post(`${import.meta.env.VITE_BACKEND}/auth/sign-up`, { name, email, password });
+      if (res.status === 200) {
+        toast.success("Account created successfully", {
+          position: "bottom-left",
+        });
+        navigate("/sign-in");
+      }
+    } catch (error) {
+      console.error(error.response.data.message);
+      toast.error("Error creating account", {
+        position: "bottom-left",
+      });
     }
   };
 
@@ -54,9 +72,9 @@ const SignUp = () => {
                   id="name"
                   name="name"
                   type="text"
-                  autoComplete="text"
+                  autoComplete="name"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                  {...register("name", { required: "Username is required" })}
+                  {...register("name")}
                 />
                 {errors.name && (
                   <span className="text-red-500">{errors.name.message}</span>
@@ -77,13 +95,7 @@ const SignUp = () => {
                   type="email"
                   autoComplete="email"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: "Invalid email address",
-                    },
-                  })}
+                  {...register("email")}
                 />
                 {errors.email && (
                   <span className="text-red-500">{errors.email.message}</span>
@@ -105,9 +117,7 @@ const SignUp = () => {
                   type="password"
                   autoComplete="current-password"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2"
-                  {...register("password", {
-                    required: "Password is required",
-                  })}
+                  {...register("password")}
                 />
                 {errors.password && (
                   <span className="text-red-500">
@@ -135,7 +145,7 @@ const SignUp = () => {
               href="/sign-in"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
-             Login here
+              Login here
             </a>
           </p>
         </div>
@@ -144,4 +154,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUp;
