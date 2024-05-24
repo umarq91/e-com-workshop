@@ -41,6 +41,7 @@ export const removeFromCartAsync = createAsyncThunk(
   'cart/removeFromCart',
   async (id) => {
     try {
+
       const response = await axios.delete(`${import.meta.env.VITE_BACKEND}/cart/${id}`);
       return response.data; // axios automatically parses JSON response
     } catch (error) {

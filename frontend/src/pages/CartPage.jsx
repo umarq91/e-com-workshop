@@ -6,19 +6,19 @@ export default function CartPage() {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
 
-  // const totalAmount = cart?.reduce(
-  //   (acc, item) => acc + item.product.price * item.quantity,
-  //   0
-  // );
-  // const totalItems = cart?.reduce((acc, item) => acc + item.quantity, 0);
+console.log(cart);
+  const totalAmount = cart?.reduce(
+    (acc, item) => acc + item?.product.price * item.quantity,
+    0
+  );
+  const totalItems = cart?.reduce((acc, item) => acc + item.quantity, 0);
 // TODO :fix
 
-const totalAmount = 10
-const totalItems=20
+// const totalAmount = 10
+// const totalItems=20
 
 
   const handleRemove = (id) => {
-    console.log(id,"id");
     dispatch(removeFromCartAsync(id));
   };
 

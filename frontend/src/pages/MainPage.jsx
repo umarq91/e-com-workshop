@@ -44,7 +44,7 @@ const [filter,setFilter] = useState({})
 const [sort,setSort] =  useState('')
 let [page,setPage] = useState(1)
 const dispatch = useDispatch()
-
+const [selectCategories,setSelectedCategories] = useState([])
 const handleSort = (e,op) => {
   const _sort = e.target
 
@@ -56,25 +56,26 @@ useEffect(()=>{
 },[sort,filter,page])
 
 
-  const handleFilter = (e,section,cat) => {
-    const newFilter={...filter,_sort:sort}
-  // {category: e.target.value} DONE
-  // TODO 
-  // multiple checkboxes 
-  // multiple options 
+const handleFilter = (e, section, option) => {
 
-  
-  newFilter[e.target.name]=e.target.value
-  setFilter(newFilter)
-
-// if(e.target.checked){
- 
-
-// }else{
-  
-//    dispatch(fetchProductByFilter({}))
-// }
+  const newFilter = { ...filter };
+  if (e.target.checked) {
+    if (newFilter[section.id]) {
+      newFilter[section.id].push(option.value);
+    } else {
+      newFilter[section.id] = [option.value];
+    }
+  } else {
+    const index = newFilter[section.id].findIndex(
+      (el) => el === option.value
+    );
+    newFilter[section.id].splice(index, 1);
   }
+  
+
+   setFilter(newFilter);
+};
+
 
   return (
     <div className="bg-white">
@@ -143,7 +144,7 @@ useEffect(()=>{
                                 {section.options.map((option, optionIdx) => (
                                   <div key={option.value} className="flex items-center">
                                     <input
-                                    onClick={(e)=>handleFilter(e,section)}
+                                    onClick={(e)=>handleFilter(e,section,option)}
                                       id={`filter-mobile-${section.id}-${optionIdx}`}
                                       name={`${section.id}`}
                                       defaultValue={option.value}
