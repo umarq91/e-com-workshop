@@ -83,7 +83,7 @@ const handleAddTocart=(e)=>{
     if(!user){
       navigate('/sign-in')
     }
-    let newObj = {product:product.id,quantity:1,user:user._id}
+    let newObj = {product:product.id,quantity:1}
   dispatch(addToCartAsync(newObj))
    toast.success("Item added to cart",{
     position:"bottom-left"

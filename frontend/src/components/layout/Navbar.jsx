@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchProducts, fetchProductsBySearch } from '../../features/products/productSlice'
 import { logout } from '../../features/auth/authSlice'
 import axios from 'axios'
-import { fetchCartAsync } from '../../features/cart/cartSlice'
 
 
 const navigation = [

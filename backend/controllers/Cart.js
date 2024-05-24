@@ -2,10 +2,10 @@ import { Cart } from "../models/CartModel.js";
 
 export const addToCart = async (req, res) => {
   try {
-    const { product, quantity, user } = req.body;
+    const { product, quantity } = req.body;
 
     // Create the cart item
-    const cartItem = await Cart.create({ product, quantity, user });
+    const cartItem = await Cart.create({ product, quantity, user: req.user.id });
 
     // Populate the product and user fields
     const populatedCartItem = await Cart.findById(cartItem._id).populate('product').populate('user');
@@ -20,10 +20,10 @@ export const addToCart = async (req, res) => {
 
 export const fetchCart = async (req, res) => {
   try {
-    const userId = req.query.id;
+    const {id} = req.user;
 
     // Find all cart items for the specified user
-    const cartItems = await Cart.find({ user: userId })
+    const cartItems = await Cart.find({ user: id })
       .populate('product')
 
     if (!cartItems || cartItems.length === 0) {

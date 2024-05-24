@@ -39,10 +39,12 @@ useEffect(()=>{
 
 useEffect(()=>{
   if(user){
-    console.log(user);
-    dispatch(fetchCartAsync(user?._id))
+    dispatch(fetchCartAsync())
   }
 },[user])
+
+
+
   return (
     <div>
 

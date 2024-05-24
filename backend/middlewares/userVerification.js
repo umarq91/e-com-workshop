@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 import {customError} from "../utils/CustomError.js"
-import UserModel from "../models/UserModel.js"
+import {UserModel} from "../models/UserModel.js"
 export const verifyToken = async(req,res,next)=>{
     const token =req.cookies.token
     if(!token) return next(customError(404,"you are not authenticated!"))

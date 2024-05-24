@@ -26,9 +26,9 @@ export const addToCartAsync = createAsyncThunk(
 
 export const fetchCartAsync = createAsyncThunk(
   'cart/fetchCarts',
-  async (userId) => {
+  async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND}/cart?id=${userId}`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND}/cart`);
       return response.data; // axios automatically parses JSON response
     } catch (error) {
       throw error;
