@@ -49,11 +49,8 @@ if(status=200){
 }
 }
 
-useEffect(()=>{
-  if(user){
-    dispatch(fetchCartAsync(user?._id))
-  }
-},[user])
+
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (

@@ -4,8 +4,8 @@ import { RadioGroup } from '@headlessui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchSingleProduct } from '../features/products/productSlice'
 import { useNavigate, useParams } from 'react-router-dom'
-import { addCart } from '../features/cart/cartSlice'
-
+import { addCart, addToCartAsync } from '../features/cart/cartSlice'
+import { toast } from 'react-toastify'
 const varity = {
   name: 'Basic Tee 6-Pack',
   price: '$192',
@@ -76,12 +76,18 @@ useEffect(()=>{
 },[])
 const product = useSelector((state)=>state.products.selectedProduct)
 
+
+
 const handleAddTocart=(e)=>{
   e.preventDefault()
     if(!user){
       navigate('/sign-in')
     }
-  dispatch(addCart(product))
+    let newObj = {product:product.id,quantity:1,user:user._id}
+  dispatch(addToCartAsync(newObj))
+   toast.success("Item added to cart",{
+    position:"bottom-left"
+   })
 
 }
 

@@ -36,6 +36,33 @@ export const fetchCartAsync = createAsyncThunk(
   }
 );
 
+
+export const removeFromCartAsync = createAsyncThunk(
+  'cart/removeFromCart',
+  async (id) => {
+    try {
+      const response = await axios.delete(`${import.meta.env.VITE_BACKEND}/cart/${id}`);
+      return response.data; // axios automatically parses JSON response
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+export const updateCartAsync= createAsyncThunk(
+  'cart/updatedCart',
+  async (update) => {
+    try {
+      console.log(update);
+      const response = await axios.patch(`${import.meta.env.VITE_BACKEND}/cart/${update.id}`,update);
+      console.log(response.data);
+      return response.data; // axios automatically parses JSON response
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 // Define the thunk for fetching products from the API
 // export const fetchProducts = createAsyncThunk(
 //   'products/fetchProducts',
@@ -98,6 +125,24 @@ const cartSlice = createSlice({
         state.loading = false;
         state.cart= action.payload
         state.error = null;
+      })
+
+      .addCase(removeFromCartAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(removeFromCartAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        const index =  state.cart.findIndex(item=>item.id===action.payload.id)
+        state.cart.splice(index,1);
+      })
+
+      .addCase(updateCartAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateCartAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        const index =  state.cart.findIndex(item=>item.id===action.payload.id)
+        state.cart[index] = action.payload;
       })
 
   },

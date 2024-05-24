@@ -1,25 +1,35 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { removeCart, updateCart } from '../features/cart/cartSlice';
+import { removeCart, removeFromCartAsync, updateCart, updateCartAsync } from '../features/cart/cartSlice';
 
 export default function CartPage() {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
 
-  const totalAmount = cart?.reduce(
-    (acc, item) => acc + item.product.price * item.quantity,
-    0
-  );
-  const totalItems = cart?.reduce((acc, item) => acc + item.quantity, 0);
+  // const totalAmount = cart?.reduce(
+  //   (acc, item) => acc + item.product.price * item.quantity,
+  //   0
+  // );
+  // const totalItems = cart?.reduce((acc, item) => acc + item.quantity, 0);
+// TODO :fix
+
+const totalAmount = 10
+const totalItems=20
+
 
   const handleRemove = (id) => {
-    dispatch(removeCart(id));
+    console.log(id,"id");
+    dispatch(removeFromCartAsync(id));
   };
 
   const handleQuantity = (e, item) => {
-    const updatedItem = { ...item, quantity: +e.target.value };
-    dispatch(updateCart(updatedItem));
+    const updatedItem = { id:item.id, quantity: +e.target.value };
+    // console.log(updatedItem,"updatedItem");
+    dispatch(updateCartAsync(updatedItem));
   };
+
+  
+
 
   return (
     <div className="mx-auto max-w-7xl mt-12 bg-white px-4 sm:px-6 lg:px-8">
@@ -68,7 +78,7 @@ export default function CartPage() {
                     </div>
                     <div className="flex">
                       <button
-                        onClick={() => handleRemove(item.product._id)}
+                        onClick={() => handleRemove(item.id)}
                         type="button"
                         className="font-medium text-indigo-600 hover:text-indigo-500"
                       >

@@ -34,7 +34,8 @@ export const fetchCart = async (req, res) => {
     const transformedCartItems = cartItems.map(item => {
       return {
         id: item._id, // Cart ID
-        product: item.product // Product details
+        product: item.product ,// Product details
+        quantity: item.quantity
       };
     });
 
@@ -45,3 +46,25 @@ export const fetchCart = async (req, res) => {
   }
 };
 
+
+export const updateCart = async (req, res) => {
+  try {
+const {id} = req.params;
+const docs = await Cart.findByIdAndUpdate(id,req.body,{new:true})
+const cart = await docs.populate('product')
+    res.status(200).json(cart);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}
+
+export const deleteFromCart = async (req, res) => {
+  const { id } = req.params;
+  try {
+  const doc = await Cart.findByIdAndDelete(id);
+  res.status(200).json({message:"deleted"});
+} catch (err) {
+  res.status(400).json(err);
+}
+};

@@ -9,9 +9,9 @@ import { toast } from "react-toastify";
 
 // Define the validation schema using zod
 const schema = z.object({
-  name: z.string().min(1, "Username is required"),
+  name: z.string().min(5, "Username is required"),
   email: z.string().email("Invalid email address").nonempty("Email is required"),
-  password: z.string().min(6, "Password must be at least 6 characters long"),
+  password: z.string().min(4, "Password must be at least 6 characters long"),
 });
 
 const SignUp = () => {

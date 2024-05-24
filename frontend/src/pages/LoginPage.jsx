@@ -10,7 +10,7 @@ function LoginPage() {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
-    const navigate = useNavigate()
+    const navigate = useNavigate()   
     const userInfo = useSelector((state) => state.auth.userInfo)
 
     const handleLogin = async (data) => {

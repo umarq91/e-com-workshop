@@ -14,12 +14,16 @@ import CheckOutPage from './pages/CheckOutPage'
 import LoginPage from './pages/LoginPage'
 import axios from 'axios'
 import { login } from './features/auth/authSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ProtectedRoutes from './pages/ProtectedRoutes'
 import SignUp from './pages/SignUpPage'
+import { fetchCartAsync } from './features/cart/cartSlice'
 axios.defaults.withCredentials=true 
 function App() {
+
 const dispatch=useDispatch()
+const user=useSelector(state=>state.auth.userInfo)
+const items = useSelector((state) => state.cart.cart);
 useEffect(()=>{
   const getData=async()=>{
     
@@ -33,6 +37,12 @@ useEffect(()=>{
 },[])
 
 
+useEffect(()=>{
+  if(user){
+    console.log(user);
+    dispatch(fetchCartAsync(user?._id))
+  }
+},[user])
   return (
     <div>
 
