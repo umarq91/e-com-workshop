@@ -13,6 +13,7 @@ export const addToCartAsync = createAsyncThunk(
   'cart/addtoCart',
   async (data) => {
     try {
+      console.log(data);
       const response = await axios.post(`${import.meta.env.VITE_BACKEND}/cart`,data);
 
       return response.data; // axios automatically parses JSON response
@@ -59,7 +60,7 @@ export const updateCartAsync= createAsyncThunk(
       console.log(response.data);
       return response.data; // axios automatically parses JSON response
     } catch (error) {
-      throw error;
+      throw error;  
     }
   }
 );
@@ -87,7 +88,8 @@ const cartSlice = createSlice({
        const existingProductIndex = state.cart.findIndex(item => item.id === action.payload.id);
    
       if(existingProductIndex !== -1){
-        state.cart[existingProductIndex].quantity += 1;  
+        // increase product quantity 
+        state.cart[existingProductIndex].quantity+=1
       }else{
         state.cart.push(action.payload)
       }

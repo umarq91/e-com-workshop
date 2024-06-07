@@ -11,7 +11,11 @@ export const addToCart = async (req, res) => {
     const populatedCartItem = await Cart.findById(cartItem._id).populate('product').populate('user');
 
     // Send the populated cart item as response
-    res.status(201).json(populatedCartItem);
+    res.status(201).json({
+      id: populatedCartItem._id, // Cart ID
+      product: populatedCartItem ,// Product details
+      quantity: populatedCartItem.quantity
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });

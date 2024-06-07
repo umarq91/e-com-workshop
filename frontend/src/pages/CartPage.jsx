@@ -1,12 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { removeCart, removeFromCartAsync, updateCart, updateCartAsync } from '../features/cart/cartSlice';
+import { fetchCartAsync, removeCart, removeFromCartAsync, updateCart, updateCartAsync } from '../features/cart/cartSlice';
+import { useEffect } from 'react';
 
 export default function CartPage() {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
 
-console.log(cart);
+  
+
+  useEffect(() => {
+    dispatch(fetchCartAsync)
+  },[])
+  console.log(cart);
   const totalAmount = cart?.reduce(
     (acc, item) => acc + item?.product.price * item.quantity,
     0
