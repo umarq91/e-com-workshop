@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+import mongoose, { Schema } from 'mongoose';
 
 const paymentMethods = {
   values: ['card', 'cash'],
@@ -31,4 +30,4 @@ orderSchema.set('toJSON', {
   },
 });
 
-exports.Order = mongoose.model('Order', orderSchema);
+export const Order = mongoose.model('Order', orderSchema);

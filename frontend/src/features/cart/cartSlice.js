@@ -43,7 +43,8 @@ export const removeFromCartAsync = createAsyncThunk(
   async (id) => {
     try {
 
-      const response = await axios.delete(`${import.meta.env.VITE_BACKEND}/cart/${id}`);
+      const response = await axios.put(rs
+        `${import.meta.env.VITE_BACKEND}/cart/${id}`);
       return response.data; // axios automatically parses JSON response
     } catch (error) {
       throw error;
@@ -59,6 +60,22 @@ export const updateCartAsync= createAsyncThunk(
       const response = await axios.patch(`${import.meta.env.VITE_BACKEND}/cart/${update.id}`,update);
       console.log(response.data);
       return response.data; // axios automatically parses JSON response
+    } catch (error) {
+      throw error;  
+    }
+  }
+);
+
+export const emptyCartAsync= createAsyncThunk(
+  'cart/emptyCart',
+  async () => {
+    try {
+      console.log(`${import.meta.env.VITE_BACKEND}/cart/empty`);
+      const response = await axios.put  (`${import.meta.env.VITE_BACKEND}/cart/empty`);
+        if(response.status === 200){
+          return response.data
+        }
+      // return response.data; // axios automatically parses JSON response
     } catch (error) {
       throw error;  
     }
@@ -146,6 +163,14 @@ const cartSlice = createSlice({
         state.loading = false;
         const index =  state.cart.findIndex(item=>item.id===action.payload.id)
         state.cart[index] = action.payload;
+      })
+
+      .addCase(emptyCartAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(emptyCartAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = []
       })
 
   },

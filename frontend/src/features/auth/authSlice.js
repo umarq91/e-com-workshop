@@ -35,6 +35,17 @@ export const signUp = createAsyncThunk(
   }
 );
 
+export const updateUserAsync = createAsyncThunk(
+  'auth/updateUser',
+  async (data) => {
+    try {
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND}/user`, data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+)
   
 
 // when page refreshes or loads it should goto userInfo
@@ -73,8 +84,10 @@ const authSlice = createSlice({
       .addCase(loginInfo.pending, (state) => {
         state.loading = true;
       })
-    
-  },
+    .addCase(updateUserAsync.fulfilled, (state, action) => {
+      state.userInfo = action.payload
+    })
+  }
 });
 
 // Export the actions and reducer

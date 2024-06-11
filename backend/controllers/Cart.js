@@ -72,3 +72,14 @@ export const deleteFromCart = async (req, res) => {
   res.status(400).json(err);
 }
 };
+
+export const emptyCart = async (req, res) => {
+  try {
+    console.log("hitt");
+    const docs = await Cart.deleteMany({ user: req.user.id });
+    res.status(200).json({message:"deleted"});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}

@@ -1,13 +1,10 @@
 import { useState } from "react";
-// import Cart from "../features/Cart/Cart";
 import { Link, Navigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux"
-// import { selectLoggedInUser, updateUserAsync} from "../features/auth/AuthSlice"
+import { useDispatch, useSelector } from "react-redux";
 import {useForm} from "react-hook-form"
+import { emptyCart, emptyCartAsync, removeFromCartAsync } from "../features/cart/cartSlice";
+import { updateUserAsync } from "../features/auth/authSlice";
 import { createOrder } from "../features/order/orderSlice";
-import { emptyCart } from "../features/cart/cartSlice";
-// import { createOrderAsync, selectCurrentOrder } from "../features/order/orderSlice";
-// import toast from "react-toastify"
 
 
 
@@ -21,25 +18,29 @@ function CheckOutPage() {
   const items = useSelector((state) => state.cart.cart);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("cash");
-  const totalAmount = items.reduce((amount, item) => item.price * item.quantity + amount,0);
+
+  const totalAmount = items?.reduce(
+    (acc, item) => acc + item?.product.price * item.quantity,
+    0
+  );
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
+  const user = useSelector((state) => state.auth.userInfo);
   const {register,handleSubmit,reset,formState: { errors },} = useForm();
-    const [userInfo,setUserInfo] = useState({})
-//   const currentOrder = useSelector(selectCurrentOrder)
+
+  const currentOrder = useSelector((state) => state.orders.currentOrder);
 
 
-//   const handleQuantity = (e, product) => {
-//     dispatch(updateCartAsync({ ...product, quantity: +e.target.value }));
-//   };
-   
-//      const handleRemove = (productId) => {
-//        dispatch(removefromCartAsync(productId));
-//      };
+  // const handleQuantity = (e, product) => {
+  //   dispatch(updateCartAsync({ ...product, quantity: +e.target.value }));
+  // };
+     const handleRemove = (productId) => {
+       dispatch(removeFromCartAsync(productId));
+     };
 
-//      const handleAddress = (index) => {
-//        // Since e can't pass object in html
-//        setSelectedAddress(user.addresses[index]);
-//      };
+     const handleAddress = (index) => {
+       // Since e can't pass object in html
+       setSelectedAddress(user.addresses[index]);
+     };
 
      const handlePaymentMethod = (e) => {
        setPaymentMethod(e.target.value);
@@ -48,32 +49,36 @@ function CheckOutPage() {
      const handleOrder = () => {
        const order = {
          items,
-        //  user,
+         user,
          totalAmount,
          totalItems,
          paymentMethod,
-         address:userInfo,
+         selectedAddress,
          status:'pending' // others can be dispatched , received 
        };
        // Todo : after order redirect to order success , remove items from cart  , on server change the number of stocs too..
-       dispatch(createOrder(order))
-       dispatch(emptyCart())
-        // toast.success('Order Successfully Placed')
-       
+
+        dispatch(createOrder(order));
+       dispatch(emptyCartAsync())
+      //  window.location.href="/"
       };
 
 
     return (
       <>
-       {/* {!items.length && <Navigate to={'/'} replace={true} />} */}
-       {/* {currentOrder && <Navigate to={'/order-success/'+currentOrder.id} replace={true} />} */}
+       {!items.length && <Navigate to={'/'} replace={true} />}
+       {currentOrder && <Navigate to={'/order-success/'+currentOrder.id} replace={true} />}
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8  gap-y-10 lg:grid-cols-5 ">
           {/* Left Side */}
           <div className="lg:col-span-3">
             <form className="bg-white px-5 py-5 mt-12 " noValidate onSubmit={handleSubmit((data)=>{
-               setUserInfo(data)
+           
+          dispatch(
+        updateUserAsync({...user,addresses:[...user.addresses,data]})
+            );
+            reset()
             })}>
               <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
@@ -97,7 +102,7 @@ function CheckOutPage() {
                       <div className="mt-2">
                         <input
                           type="text"
-                    {...register('name',{required:'name is required'})}
+                          {...register('name',{required:'name is required'})}
                           id="name"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
@@ -263,7 +268,7 @@ function CheckOutPage() {
                   </p>
 
                   <ul role="list" >
-      {/* { user.addresses.map((address,index) => (
+      { user.addresses.map((address,index) => (
         <li key={index} className="flex justify-between p-4 gap-x-6 py-5 border-solid border-2 border-gray-200">
           <div className="flex min-w-0 gap-x-4 ">
         
@@ -290,7 +295,7 @@ function CheckOutPage() {
             
           </div>
         </li>
-      ))} */}
+      ))}
     </ul>
 
                         {/* CheckBoxes */}
@@ -361,11 +366,11 @@ function CheckOutPage() {
                   <div className="flow-root">
                     <ul role="list" className="my-6 divide-y divide-gray-200">
                       {items?.map((product) => (
-                        <li key={product.id} className="flex py-2">
+                        <li key={product.product.id} className="flex py-2">
                           <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                             <img
-                              src={product.thumbnail}
-                              alt={product.title}
+                              src={product.product.thumbnail}
+                              alt={product.product.title}
                               className="h-full w-full object-cover object-center"
                             />
                           </div>
@@ -374,11 +379,11 @@ function CheckOutPage() {
                             <div>
                               <div className="flex justify-between text-base font-medium text-gray-900">
                                 <h3>
-                                  <Link to={product.href}>{product.title}</Link>
+                                  <Link to={product.product.href}>{product.product.title}</Link>
                                 </h3>
-                                <p className="ml-4">{product.price} PKR</p>
+                                <p className="ml-4">{product.product.price} PKR</p>
                               </div>
-                              <p className="mt-1 text-sm text-gray-500">{product.brand}</p>
+                              <p className="mt-1 text-sm text-gray-500">{product.product.brand}</p>
                             </div>
                             <div className="flex flex-1 items-end justify-between text-sm">
                              <div className='text-gray-500'>

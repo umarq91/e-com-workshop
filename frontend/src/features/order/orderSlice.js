@@ -14,7 +14,18 @@ export const createOrder = createAsyncThunk(
   'products/createOrder',
   async (order) => {
     try {
-      const response = await axios.post('http://localhost:8080/orders',order);
+      const response = await axios.post('http://localhost:5000/api/v1/orders',order);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const fetchLoggedInUserOrders = createAsyncThunk(
+  'products/fetchLoggedInUserOrders',
+  async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/v1/orders/own');
       return response.data;
     } catch (error) {
       throw error;
@@ -55,7 +66,13 @@ const orderSlice = createSlice({
       .addCase(createOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = "Something went wrong!";
-      });
+      })
+
+      .addCase(fetchLoggedInUserOrders.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.orders=action.payload;
+        state.currentOrder=null
+      })
   },
 });
 
