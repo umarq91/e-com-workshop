@@ -3,90 +3,77 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchLoggedInUserOrders } from '../features/order/orderSlice';
 import { Navigate } from 'react-router-dom';
 
-
 export default function UserOrders() {
   const dispatch = useDispatch();
-  let order = useSelector((state) => state.orders.orders);
-  console.log(order);
-   const orders =  [];
+  let orders = useSelector((state) => state.orders.orders);
 
   useEffect(() => {
-    dispatch(fetchLoggedInUserOrders())
-  }, []);
-  
-// Todo  : I can add more info like address , Shipping things etc
+    dispatch(fetchLoggedInUserOrders());
+  }, [dispatch]);
+
   return (
-    <div className='min-h-screen'>
-      <div className='font-poppins'>
-    {orders.map((order,index)=>(
-        <div className="mx-auto max-w-7xl mt-6  bg-white px-4 sm:px-6 lg:px-8">
-           
-
-        <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-        <h1 className='text-xl font-semibold font-poppins tracking-tight  text-gray-900'>  Order ID #{order.id} </h1>
-        <p className='text-green-600'> Order Status : {order.status} </p>
-        <h1 className='text-4xl font-bold tracking-tight  text-gray-900'>   Items In This Order </h1>
-
-  
-                          <div className="flow-root">
-                            <ul role="list" className="-my-4 divide-y divide-gray-200">
-                              {order.items?.map((product) => (
-                                <li key={product.id} className="flex pt-6">
-                                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                    <img
-                                      src={product.thumbnail}
-                                      alt={product.title}
-                                      className="h-full w-full object-cover object-center"
-                                    />
-                                  </div>
-  
-                                  <div className="ml-4 flex flex-1 flex-col">
-                                    <div>
-                                      <div className="flex justify-between text-base font-medium text-gray-900">
-                                        <h3>
-                                          <h1 to={product.href}>{product.title}</h1>
-                                        </h3>
-                                        <p className="ml-4">{product.price} PKR</p>
-                                      </div>
-                                      <p className="mt-1 text-sm text-gray-500">{product.brand}</p>
-                                    </div>
-                                    <div className="flex flex-1 items-end justify-between text-sm">
-                                     <div className='text-gray-500'>
-  
-                                    <label htmlFor='quantity' className='inline mr-5 text-sm font-medium leading-6 text-gray-900'>
-                                  QTY {product.quantity}
-                                    </label>
-    
-                                     </div>
-  
-  
-                                    </div>
-                                  </div>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                  
-  
-                      <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                        <div className="flex justify-between text-base font-medium text-gray-900">
-                          <p>Subtotal</p>
-                          <p className='font-bold text-lg underline'> {order.totalAmount} PKR </p>
-                        </div>
-                        
-  
-                        <div className="flex justify-between py-2 text-base font-medium text-gray-900">
-                          <p>total Items</p>
-                          <p>{order.totalItems} Items</p>
-                        </div>
-  
-                        <hr className='h-1 bg-gray-400'/>
-                          
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 font-poppins">
+        {orders.map((order, index) => (
+          <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
+            <div className="px-6 py-8">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                Order ID #{order.id}
+              </h2>
+              <p className="text-lg text-green-600 mb-2">
+                Order Status: {order.status}
+              </p>
+              <p className="text-gray-600">
+                Order Date: {new Date(order.date).toLocaleDateString()}
+              </p>
+              <p className="text-gray-600">
+                Shipping Address: {order.shippingAddress}
+              </p>
+            </div>
+            <div className="px-6 py-4 bg-gray-100">
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Items in This Order
+              </h3>
+              <ul className="-my-4 divide-y divide-gray-200">
+                {order.items?.map((product) => (
+                  <li key={product.id} className="flex py-6">
+                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                      <img
+                        src={product.product.thumbnail}
+                        alt={product.product.title}
+                        className="h-full w-full object-cover object-center"
+                      />
+                    </div>
+                    <div className="ml-4 flex flex-1 flex-col justify-between">
+                      <div>
+                        <h4 className="text-lg font-medium text-gray-900">
+                          {product.product.title}
+                        </h4>
+                        <p className="text-sm text-gray-500">{product.product.brand}</p>
+                        <p className="mt-1 text-sm text-gray-500">
+                          Price: {product.product.price} PKR
+                        </p>
                       </div>
-                                
+                      <div className="flex items-end justify-between text-sm text-gray-500">
+                        <span>QTY: {product.quantity}</span>
                       </div>
-    ))}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="px-6 py-4 bg-gray-100 border-t border-gray-200">
+              <div className="flex justify-between text-lg font-medium text-gray-800 mb-2">
+                <span>Subtotal</span>
+                <span className="font-bold">{order.totalAmount} PKR</span>
+              </div>
+              <div className="flex justify-between text-lg font-medium text-gray-800">
+                <span>Total Items</span>
+                <span>{order.totalItems} Items</span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

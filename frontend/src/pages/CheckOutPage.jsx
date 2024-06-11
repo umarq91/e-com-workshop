@@ -56,11 +56,10 @@ function CheckOutPage() {
          selectedAddress,
          status:'pending' // others can be dispatched , received 
        };
-       // Todo : after order redirect to order success , remove items from cart  , on server change the number of stocs too..
 
         dispatch(createOrder(order));
        dispatch(emptyCartAsync())
-      //  window.location.href="/"
+      window.location.href="/"
       };
 
 
