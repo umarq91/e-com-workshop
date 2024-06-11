@@ -24,7 +24,7 @@ export default function UserOrders() {
                 Order Status: {order.status}
               </p>
               <p className="text-gray-600">
-                Order Date: {new Date(order.date).toLocaleDateString()}
+                Order Date: {new Date(order.createdAt).toLocaleDateString()}
               </p>
               <p className="text-gray-600">
                 Shipping Address: {order.shippingAddress}

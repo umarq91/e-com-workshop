@@ -19,6 +19,7 @@ import ProtectedRoutes from './pages/ProtectedRoutes'
 import SignUp from './pages/SignUpPage'
 import { fetchCartAsync } from './features/cart/cartSlice'
 import UserOrders from './pages/UserOrders'
+import { UserProfile } from './pages/UserProfilepage'
 axios.defaults.withCredentials=true 
 function App() {
 
@@ -62,6 +63,7 @@ useEffect(()=>{
       <Route path='/sign-in' element={<LoginPage />}/>
       <Route path='/sign-up' element={<SignUp />}/>
       <Route path='/orders' element={<UserOrders />}/>
+      <Route path="/profile" element={<UserProfile />}/>
 
 
       <Route path='/*' element={<NotFound/>} />
