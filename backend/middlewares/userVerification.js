@@ -11,7 +11,6 @@ export const verifyToken = async(req,res,next)=>{
     
         // Attach user information to the request object for use in subsequent middleware or routes
         req.user = user;
-        console.log("coming2");
         next();
     } catch (error) {
         next(customError(500,"Something is Wrong"))

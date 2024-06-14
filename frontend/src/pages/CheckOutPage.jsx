@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {useForm} from "react-hook-form"
 import { emptyCart, emptyCartAsync, removeFromCartAsync } from "../features/cart/cartSlice";
@@ -19,6 +19,7 @@ function CheckOutPage() {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
+  const navigate = useNavigate()
   const totalAmount = items?.reduce(
     (acc, item) => acc + item?.product.price * item.quantity,
     0
@@ -59,7 +60,7 @@ function CheckOutPage() {
 
         dispatch(createOrder(order));
        dispatch(emptyCartAsync())
-      window.location.href="/"
+     navigate('/')
       };
 
 

@@ -20,6 +20,9 @@ import SignUp from './pages/SignUpPage'
 import { fetchCartAsync } from './features/cart/cartSlice'
 import UserOrders from './pages/UserOrders'
 import  UserProfile  from './pages/UserProfilepage'
+import AdminProductDetailPage from './pages/admin/AdminProductDetailPage'
+import AdminProductListPage from './pages/admin/AdminProductList'
+import AdminProductForm from './pages/admin/AdminProductForm'
 axios.defaults.withCredentials=true 
 function App() {
 
@@ -60,6 +63,13 @@ useEffect(()=>{
       
       <Route path='/orders' element={<UserOrders />}/>
       <Route path="/profile" element={<UserProfile />}/>
+
+      <Route path="/admin" element={<AdminProductListPage />}/>
+      <Route path="/admin/product-form/edit/:id" element={<AdminProductForm />}/>
+
+
+      <Route path="/admin/product/:id" element={<AdminProductDetailPage />}/>
+      
 
 
       <Route path='/*' element={<NotFound/>} />
