@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+// src/pages/ProtectedRoutes.js
 
-function ProtectedRoutes({children}) {
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { fetchUserInfo } from '../features/auth/authSlice';
 
+function ProtectedRoutes({ children }) {
+//   const userInfo = useSelector((state) => state.auth.userInfo);
+//   const loading = useSelector((state) => state.auth.loading);
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
 
-    const userInfo = useSelector((state)=>state.auth.userInfo)
+// console.log("bahr");
+// console.log(loading);
+// // if(loading) return <div>Loading...</div>
+// useEffect(() => {
+// console.log("TEst")
+// },[])
 
-
-    useEffect(()=>{
-        if(!userInfo){
-            // window.location.href="/sign-in"
-            console.log("Hi");
-        }
-    },[])
-
-  return (
-    <div>
-        {children}
-    </div>
-  )
+  return <div>{children}</div>;
 }
 
-export default ProtectedRoutes
+export default ProtectedRoutes;

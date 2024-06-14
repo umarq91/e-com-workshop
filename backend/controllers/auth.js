@@ -50,6 +50,7 @@ export const signIn = async (req, res, next) => {
   
 export const userVerification = (req, res) => {
   const { token } = req.cookies;
+  // console.log(token);
   if (token) {
     jwt.verify(token, process.env.jwtSecret, {}, async (err, usertoken) => {
       if (err) throw err;

@@ -295,7 +295,7 @@ const handleFilter = (e, section, option) => {
               {/* Product grid */}
               <div className="lg:col-span-3">
                 <Product/>
-              </div>
+            </div>
             </div>
           </section>
           <Pagination page={page} setPage={setPage}></Pagination>

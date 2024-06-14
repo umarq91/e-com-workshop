@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {useForm} from "react-hook-form";
 
-export function   UserProfile() {
+export default function   UserProfile() {
   const user = useSelector((state)=>state.auth.userInfo);
+  const loading = useSelector((state) => state.auth.loading);
   const disptch = useDispatch();
   const {register,handleSubmit,reset,formState: { errors },} = useForm();
 
   let [selectedAddress,setSelectedaddress] = useState(-1);
 
-  
+
+
   const handleEdit=(data,index)=>{ // data is updated form
     const updatedUser = {...user , addresses:[...user.addresses]} // for shallow copy issues
     updatedUser.addresses.splice(index,1,data)

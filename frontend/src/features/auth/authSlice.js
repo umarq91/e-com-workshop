@@ -6,7 +6,8 @@ import { useSelector } from 'react-redux';
 
 // Define the initial state
 const initialState = {
-  userInfo:null
+  userInfo:null,
+  loading: false,
 };
 
 // Define the thunk for fetching products from the API
@@ -50,12 +51,12 @@ export const updateUserAsync = createAsyncThunk(
 
 // when page refreshes or loads it should goto userInfo
 export const fetchUserInfo = createAsyncThunk(
-  'products/fetchProductsBySearch',
-  async (search) => {
+  'products/fetchUserInfo',
+  async () => {
     try {
-      const response = await axios.get('https://dummyjson.com/products/search?q='+search);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND}/auth/user`);
 
-      return response.data.products; // axios automatically parses JSON response
+      return response.data; // axios automatically parses JSON response
     } catch (error) {
       throw error;
     }
@@ -87,6 +88,13 @@ const authSlice = createSlice({
     .addCase(updateUserAsync.fulfilled, (state, action) => {
       state.userInfo = action.payload
     })
+
+    .addCase(fetchUserInfo.pending, (state) => {
+      state.loading = true;
+    })
+  .addCase(fetchUserInfo.fulfilled, (state, action) => {
+    state.userInfo = action.payload
+  })
   }
 });
 

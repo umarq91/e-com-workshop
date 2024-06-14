@@ -14,6 +14,7 @@ export default function UserOrders() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 font-poppins">
+    <h2 className='text-2xl font-semibold text-gray-800'>  Total Orders :  {orders.length}</h2>
         {orders.map((order, index) => (
           <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden mb-6">
             <div className="px-6 py-8">
