@@ -24,7 +24,11 @@ const SignUp = () => {
   } = useForm({
     resolver: zodResolver(schema),
   });
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error,userInfo } = useSelector((state) => state.auth);
+
+if(!loading && userInfo){
+  navigate("/")
+}
 
   const onSubmit = async (data) => {
     const { name, email, password } = data;

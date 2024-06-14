@@ -25,6 +25,7 @@ export default function CartPage() {
 
 
   const handleRemove = (id) => {
+    console.log(id);
     dispatch(removeFromCartAsync(id));
   };
 

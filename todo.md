@@ -6,4 +6,6 @@ Support multiple Cateogries on FrontEnd
 
 <!-- TODO : Orders backend and fronend My Orders Page -->
 
-<!-- Todo  : Crud operations for user -->
+<!-- Todo  : Crud operations for user --> DOne 
+Todo : add loading in Search
+TODO : Admin Orders Page is not yet working

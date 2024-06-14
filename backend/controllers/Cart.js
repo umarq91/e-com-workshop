@@ -65,6 +65,7 @@ const cart = await docs.populate('product')
 
 export const deleteFromCart = async (req, res) => {
   const { id } = req.params;
+  console.log(id);
   try {
   const doc = await Cart.findByIdAndDelete(id);
   res.status(200).json({message:"deleted"});

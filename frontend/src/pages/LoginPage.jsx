@@ -13,6 +13,10 @@ function LoginPage() {
     const navigate = useNavigate()   
     const userInfo = useSelector((state) => state.auth.userInfo)
 
+    if(userInfo){
+        navigate("/")
+      }
+
     const handleLogin = async (data) => {
         try {
             setLoading(true)

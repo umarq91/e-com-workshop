@@ -23,6 +23,7 @@ import  UserProfile  from './pages/UserProfilepage'
 import AdminProductDetailPage from './pages/admin/AdminProductDetailPage'
 import AdminProductListPage from './pages/admin/AdminProductList'
 import AdminProductForm from './pages/admin/AdminProductForm'
+import ProtectedAdmin from './ProtectedAdmin'
 axios.defaults.withCredentials=true 
 function App() {
 
@@ -33,7 +34,9 @@ const items = useSelector((state) => state.cart.cart);
 
 
 useEffect(()=>{
-dispatch(fetchUserInfo())
+  
+    dispatch(fetchUserInfo())
+  
 },[])
 
 
@@ -64,7 +67,15 @@ useEffect(()=>{
       <Route path='/orders' element={<UserOrders />}/>
       <Route path="/profile" element={<UserProfile />}/>
 
-      <Route path="/admin" element={<AdminProductListPage />}/>
+      <Route 
+          path="/admin" 
+          element={
+            <ProtectedAdmin>
+              <AdminProductListPage />
+            </ProtectedAdmin>
+          } 
+        />
+      
       <Route path="/admin/product-form/edit/:id" element={<AdminProductForm />}/>
 
 
