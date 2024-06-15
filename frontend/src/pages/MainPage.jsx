@@ -3,9 +3,10 @@ import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import Product from "./Products"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductByFilter } from '../features/products/productSlice'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+import { ItemsPerPage } from '../constants'
 const sortOptions = [
   { name: 'Best Rating', _sort: 'rating', current: false },
   { name: 'Price: Low to High', _sort: 'price', current: false },
@@ -45,6 +46,8 @@ const [sort,setSort] =  useState('')
 let [page,setPage] = useState(1)
 const dispatch = useDispatch()
 const [selectCategories,setSelectedCategories] = useState([])
+
+const totalItems = useSelector((state) => state.products.totalProducts)
 const handleSort = (e,op) => {
   const _sort = e.target
 
@@ -298,7 +301,7 @@ const handleFilter = (e, section, option) => {
             </div>
             </div>
           </section>
-          <Pagination page={page} setPage={setPage}></Pagination>
+          <Pagination page={page} setPage={setPage} totalItems={totalItems}></Pagination>
         </main>
       </div>
     </div>
@@ -306,9 +309,7 @@ const handleFilter = (e, section, option) => {
 }
 
 
-const Pagination=({page,setPage})=>{
-  const totalItems=9
-  let ItemsPerPage =3
+const Pagination=({page,setPage,totalItems})=>{
   const totalPages =Math.ceil(totalItems / ItemsPerPage) 
 
 return (

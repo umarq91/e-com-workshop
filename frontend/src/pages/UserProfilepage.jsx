@@ -23,7 +23,6 @@ export default function   UserProfile() {
   const handleRemove=(e,index)=>{
     const updatedUser = {...user , addresses:[...user.addresses]}
     updatedUser.addresses.splice(index,1)
-    console.log(updatedUser);
       disptch(updateUserAsync(updatedUser))
   }
 

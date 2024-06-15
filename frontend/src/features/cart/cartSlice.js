@@ -13,7 +13,6 @@ export const addToCartAsync = createAsyncThunk(
   'cart/addtoCart',
   async (data) => {
     try {
-      console.log(data);
       const response = await axios.post(`${import.meta.env.VITE_BACKEND}/cart`,data);
 
       return response.data; // axios automatically parses JSON response
@@ -56,9 +55,7 @@ export const updateCartAsync= createAsyncThunk(
   'cart/updatedCart',
   async (update) => {
     try {
-      console.log(update);
       const response = await axios.patch(`${import.meta.env.VITE_BACKEND}/cart/${update.id}`,update);
-      console.log(response.data);
       return response.data; // axios automatically parses JSON response
     } catch (error) {
       throw error;  
@@ -70,7 +67,6 @@ export const emptyCartAsync= createAsyncThunk(
   'cart/emptyCart',
   async () => {
     try {
-      console.log(`${import.meta.env.VITE_BACKEND}/cart/empty`);
       const response = await axios.put  (`${import.meta.env.VITE_BACKEND}/cart/empty`);
         if(response.status === 200){
           return response.data

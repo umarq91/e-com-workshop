@@ -28,7 +28,6 @@ function LoginPage() {
             }
         } catch (error) {
             setLoading(false)
-            console.log(error.response.data.message)
             setError(error.response.data.message)
         }
     }

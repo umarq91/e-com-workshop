@@ -22,6 +22,17 @@ function ProductForm() {
     formState: { errors },
   } = useForm();
 //   const brands = useSelector(selectBrands);
+const brands = {
+  id: 'brand',
+  name: 'Brands',
+  options: [
+    { value: 'Apple', label: 'Apple', checked: false },
+    { value: 'Samsung', label: 'Samsung', checked: false },
+    { value: 'Microsoft', label: 'Microsoft', checked: false },
+    { value: 'Google', label: 'Google', checked: false },
+    { value: 'LG', label: 'LG', checked: false },
+  ],
+}
 console.log(errors);
   const categories = {
     id: 'category',
@@ -71,6 +82,7 @@ console.log(errors);
   const handleDelete = () =>{
     const product = {...selectedProduct};
     product.deleted = true;
+    console.log(product);
     dispatch(updateProductAsync(product));
   }
 
@@ -93,7 +105,6 @@ console.log(errors);
         product.price = +product.price;
         product.stock = +product.stock;
         product.discountPercentage = +product.discountPercentage;
-        console.log(product);
 
         if (params.id) {
           product.id = params.id;
@@ -158,7 +169,7 @@ console.log(errors);
               </p>
             </div>
 
-            {/* <div className="col-span-full">
+            <div className="col-span-full">
               <label
                 htmlFor="brand"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -172,12 +183,12 @@ console.log(errors);
                   })}
                 >
                   <option value="">--choose brand--</option>
-                  {brands.map((brand) => (
+                  {brands.options.map((brand) => (
                     <option value={brand.value}>{brand.label}</option>
                   ))}
                 </select>
               </div>
-            </div> */}
+            </div>
 
             <div className="col-span-full">
               <label

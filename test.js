@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 function Products() {
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector(state => state.products);
+  console.log(products);
   const user = useSelector(state => state.auth.userInfo);
   const navigate = useNavigate();
 

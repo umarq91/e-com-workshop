@@ -83,7 +83,6 @@ export const updateProductAsync = createAsyncThunk(
   async (product) => {
     try {
       const response = await axios.patch(`${import.meta.env.VITE_BACKEND}/products/${product.id}`, product);
-      console.log(response);
       return response.data;
     } catch (error) {
       throw error;

@@ -25,8 +25,7 @@ import {
   Squares2X2Icon,
 } from '@heroicons/react/20/solid';
 import { fetchProductByFilter } from '../../products/productSlice';
-// import { ITEMS_PER_PAGE } from '../../../app/constants';
-let ITEMS_PER_PAGE = 6;
+import { ItemsPerPage } from '../../../constants';
 const sortOptions = [
   { name: 'Best Rating', sort: 'rating', order: 'desc', current: false },
   { name: 'Price: Low to High', sort: 'price', order: 'asc', current: false },
@@ -104,7 +103,7 @@ export default function AdminProductList() {
   };
 
   useEffect(() => {
-    dispatch(fetchProductByFilter({ filter, sort,page  }));
+    dispatch(fetchProductByFilter({ filter, sort , page  }));
   }, [dispatch, filter, sort, page]);
 
   useEffect(() => {
@@ -412,7 +411,7 @@ function DesktopFilter({ handleFilter, filters }) {
 }
 
 function Pagination({ page, setPage, handlePage, totalItems }) {
-  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(totalItems / ItemsPerPage);
   return (
     <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
@@ -434,13 +433,13 @@ function Pagination({ page, setPage, handlePage, totalItems }) {
           <p className="text-sm text-gray-700">
             Showing{' '}
             <span className="font-medium">
-              {(page - 1) * ITEMS_PER_PAGE + 1}
+              {(page - 1) * ItemsPerPage + 1}
             </span>{' '}
             to{' '}
             <span className="font-medium">
-              {page * ITEMS_PER_PAGE > totalItems
+              {page * ItemsPerPage> totalItems
                 ? totalItems
-                : page * ITEMS_PER_PAGE}
+                : page * ItemsPerPage}
             </span>{' '}
             of <span className="font-medium">{totalItems}</span> results
           </p>

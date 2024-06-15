@@ -53,10 +53,8 @@ export default function AdminProductDetail() {
   };
 
   useEffect(() => {
-      console.log(params.id);
     dispatch(fetchSingleProduct(params.id));
   }, [dispatch, params.id]);
-  console.log(product);
 
   return (
     <div className="bg-white">

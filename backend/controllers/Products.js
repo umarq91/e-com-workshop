@@ -17,6 +17,7 @@ export const getProducts = async (req, res) => {
     try {
         let query = ProductModel.find({});
         
+        console.log(req.query);
         if (req.query.category) {
             // category = smartphones, laptops $in:[smartphones, laptops]
             query = query.find({ category: { $in: req.query.category.split(',') } });
@@ -38,8 +39,8 @@ export const getProducts = async (req, res) => {
         const limit = parseInt(req.query.limit) || 6;
         const page = parseInt(req.query.page) || 1;
 
-        const totalDocs = await query.clone().countDocuments();
         const docs = await query.skip((page - 1) * limit).limit(limit).exec();
+        const totalDocs = await query.clone().countDocuments();
 
         res.status(200).json({
             products: docs,

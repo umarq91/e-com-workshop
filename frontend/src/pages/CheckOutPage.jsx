@@ -33,7 +33,6 @@ function CheckOutPage() {
 
   const handleQuantity = (e, item) => {
     const updatedItem = { id:item.id, quantity: +e.target.value };
-    // console.log(updatedItem,"updatedItem");
     dispatch(updateCartAsync(updatedItem));
   };
 
