@@ -23,11 +23,12 @@ function classNames(...classes) {
 function NavBar({ children }) {
   const items = useSelector((state) => state.cart.cart);
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const loading = useSelector((state) => state.auth.loading);
 
-  console.log(userInfo);
+  if(loading) return <div>Loading...</div>
+
   return (
     <>
-      {userInfo && (
         <div className="min-h-full">
           <Disclosure as="nav" className="bg-gray-800">
             {({ open }) => (
@@ -47,7 +48,7 @@ function NavBar({ children }) {
                       <div className="hidden md:block">
                         <div className="ml-10 flex items-baseline space-x-4">
                           {navigation.map((item) =>
-                            (item.user && !userInfo.isAdmin) || (item.admin && userInfo.isAdmin) ? (
+                            (item?.user && !userInfo.isAdmin) || (item.admin && userInfo.isAdmin) ? (
                               <Link
                                 key={item.name}
                                 to={item.link}
@@ -93,7 +94,7 @@ function NavBar({ children }) {
                               <span className="sr-only">Open user menu</span>
                               <img
                                 className="h-8 w-8 rounded-full"
-                                src={userInfo.imageUrl}
+                                src={userInfo.imageUrl||"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
                                 alt=""
                               />
                             </Menu.Button>
@@ -224,7 +225,7 @@ function NavBar({ children }) {
           <header className="bg-white shadow">
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
               <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                E-Commerce
+               BuyKarkhano
               </h1>
             </div>
           </header>
@@ -234,7 +235,7 @@ function NavBar({ children }) {
             </div>
           </main>
         </div>
-      )}
+     
     </>
   );
 }

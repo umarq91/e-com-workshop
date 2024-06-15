@@ -9,3 +9,4 @@ Support multiple Cateogries on FrontEnd
 <!-- Todo  : Crud operations for user --> DOne 
 Todo : add loading in Search
 TODO : Admin Orders Page is not yet working
+Fetch Categories and Brands from Backend

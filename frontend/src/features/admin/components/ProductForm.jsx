@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { fetchSingleProduct } from '../../products/productSlice';
+import { createProductAsync, fetchSingleProduct, updateProductAsync } from '../../products/productSlice';
 
 function ProductForm() {
   const {
@@ -22,7 +22,23 @@ function ProductForm() {
     formState: { errors },
   } = useForm();
 //   const brands = useSelector(selectBrands);
-//   const categories = useSelector(selectCategories);
+console.log(errors);
+  const categories = {
+    id: 'category',
+    name: 'Category',
+    options: [
+      { value: "smartphones", label: "smartphones", checked: false },
+      { value: 'laptops', label: 'laptops', checked: false },
+      { value: "fragrances", label: 'fragrances', checked: false },
+      { value: "groceries", label: "groceries", checked: false },
+      { value: "home-decoration", label: "home-decoration", checked: false },
+
+    ],
+  }
+
+
+
+
   const dispatch = useDispatch();
   const params = useParams();
   const selectedProduct = useSelector((state)=>state.products.selectedProduct);
@@ -142,7 +158,7 @@ function ProductForm() {
               </p>
             </div>
 
-            <div className="col-span-full">
+            {/* <div className="col-span-full">
               <label
                 htmlFor="brand"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -156,14 +172,14 @@ function ProductForm() {
                   })}
                 >
                   <option value="">--choose brand--</option>
-                  {/* {brands.map((brand) => (
+                  {brands.map((brand) => (
                     <option value={brand.value}>{brand.label}</option>
-                  ))} */}
+                  ))}
                 </select>
               </div>
-            </div>
+            </div> */}
 
-            {/* <div className="col-span-full">
+            <div className="col-span-full">
               <label
                 htmlFor="category"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -177,12 +193,12 @@ function ProductForm() {
                   })}
                 >
                   <option value="">--choose category--</option>
-                  {categories.map((category) => (
+                  {categories.options.map((category) => (
                     <option value={category.value}>{category.label}</option>
                   ))}
                 </select>
               </div>
-            </div> */}
+            </div>
 
             <div className="sm:col-span-2">
               <label
@@ -198,7 +214,7 @@ function ProductForm() {
                     {...register('price', {
                       required: 'price is required',
                       min: 1,
-                      max: 10000,
+                    
                     })}
                     id="price"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"

@@ -26,7 +26,7 @@ import {
 } from '@heroicons/react/20/solid';
 import { fetchProductByFilter } from '../../products/productSlice';
 // import { ITEMS_PER_PAGE } from '../../../app/constants';
-let ITEMS_PER_PAGE = 10;
+let ITEMS_PER_PAGE = 6;
 const sortOptions = [
   { name: 'Best Rating', sort: 'rating', order: 'desc', current: false },
   { name: 'Price: Low to High', sort: 'price', order: 'asc', current: false },
@@ -42,19 +42,31 @@ export default function AdminProductList() {
   const products = useSelector((state) => state.products.products);
 //   const brands = useSelector(selectBrands);
 //   const categories = useSelector(selectCategories);
-  const totalItems = useSelector((state) => state.products.products).length;
-//   const filters = [
-//     {
-//       id: 'category',
-//       name: 'Category',
-//       options: categories,
-//     },
-//     {
-//       id: 'brand',
-//       name: 'Brands',
-//       options: brands,
-//     },
-//   ];
+  const totalItems = useSelector((state) => state.products.totalProducts);
+  const filters = [
+    {
+      id: 'category',
+      name: 'Category',
+      options: [
+        { value: "smartphones", label: "smartphones", checked: false },
+        { value: 'laptops', label: 'laptops', checked: false },
+        { value: "fragrances", label: 'fragrances', checked: false },
+        { value: "groceries", label: "groceries", checked: false },
+        { value: "home-decoration", label: "home-decoration", checked: false },
+      ],
+    },
+    {
+      id: 'brand',
+      name: 'Brands',
+      options: [
+        { value: 'Apple', label: 'Apple', checked: false },
+        { value: 'Samsung', label: 'Samsung', checked: false },
+        { value: 'Microsoft', label: 'Microsoft', checked: false },
+        { value: 'Google', label: 'Google', checked: false },
+        { value: 'LG', label: 'LG', checked: false },
+      ],
+    },
+  ];
 
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
@@ -83,7 +95,6 @@ export default function AdminProductList() {
 
   const handleSort = (e, option) => {
     const sort = { _sort: option.sort, _order: option.order };
-    console.log({ sort });
     setSort(sort);
   };
 
@@ -93,8 +104,7 @@ export default function AdminProductList() {
   };
 
   useEffect(() => {
-    const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchProductByFilter({ filter, sort, pagination }));
+    dispatch(fetchProductByFilter({ filter, sort,page  }));
   }, [dispatch, filter, sort, page]);
 
   useEffect(() => {
@@ -113,7 +123,7 @@ export default function AdminProductList() {
           handleFilter={handleFilter}
           mobileFiltersOpen={mobileFiltersOpen}
           setMobileFiltersOpen={setMobileFiltersOpen}
-        //   filters={filters}
+          filters={filters}
         ></MobileFilter>
 
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -194,7 +204,7 @@ export default function AdminProductList() {
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               <DesktopFilter
                 handleFilter={handleFilter}
-                // filters={filters}
+                filters={filters}
               ></DesktopFilter>
               {/* Product grid */}
 
@@ -230,7 +240,7 @@ function MobileFilter({
   mobileFiltersOpen,
   setMobileFiltersOpen,
   handleFilter,
-//   filters,
+  filters,
 }) {
   return (
     <Transition.Root show={mobileFiltersOpen} as={Fragment}>
@@ -275,7 +285,7 @@ function MobileFilter({
               </div>
 
               {/* Filters */}
-              {/* <form className="mt-4 border-t border-gray-200">
+              <form className="mt-4 border-t border-gray-200">
                 {filters.map((section) => (
                   <Disclosure
                     as="div"
@@ -336,7 +346,7 @@ function MobileFilter({
                     )}
                   </Disclosure>
                 ))}
-              </form> */}
+              </form>
             </Dialog.Panel>
           </Transition.Child>
         </div>
@@ -348,7 +358,7 @@ function MobileFilter({
 function DesktopFilter({ handleFilter, filters }) {
   return (
     <form className="hidden lg:block">
-      {/* {filters.map((section) => (
+      {filters.map((section) => (
         <Disclosure
           as="div"
           key={section.id}
@@ -396,7 +406,7 @@ function DesktopFilter({ handleFilter, filters }) {
             </>
           )}
         </Disclosure>
-      ))} */}
+      ))}
     </form>
   );
 }

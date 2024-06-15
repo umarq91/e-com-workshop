@@ -12,32 +12,45 @@ export const addProduct = async (req, res) => {
     }
 }
 
+
 export const getProducts = async (req, res) => {
-
     try {
-
-        let query =  ProductModel.find({});
-        if(req.query.category){
-            // category = smartphoens,laptops $in:[smartphones,laptops]
-            query = query.find({ category: {$in:req.query.category.split(',')} });
+        let query = ProductModel.find({});
+        
+        if (req.query.category) {
+            // category = smartphones, laptops $in:[smartphones, laptops]
+            query = query.find({ category: { $in: req.query.category.split(',') } });
         }
 
-        if(req.query.brand){
-            query = query.find({brand:req.query.brand});
+        if (req.query.brand) {
+            query = query.find({ brand: req.query.brand });
         }
 
-        // TODO : Sorting and Pagination
+        // Sorting (if needed)
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            query = query.sort(sortBy);
+        } else {
+            query = query.sort('-createdAt'); // Default sort by createdAt
+        }
 
-       let limit = req.query.limit || 6
-        let page = req.query.page  ||1
+        // Pagination
+        const limit = parseInt(req.query.limit) || 6;
+        const page = parseInt(req.query.page) || 1;
 
-  
-        let docs = await query.skip((page - 1) * limit).limit(limit).exec()
-        res.status(200).json(docs);
-    }catch(err){
+        const totalDocs = await query.clone().countDocuments();
+        const docs = await query.skip((page - 1) * limit).limit(limit).exec();
+
+        res.status(200).json({
+            products: docs,
+            total: totalDocs
+        });
+    } catch (err) {
         console.log(err);
+        res.status(500).json({ error: 'Server Error' });
     }
-}
+};
+
 
 export const fetchSingleProduct = async (req, res) => {
 
