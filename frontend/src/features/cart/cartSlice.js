@@ -128,9 +128,18 @@ const cartSlice = createSlice({
       .addCase(addToCartAsync.pending, (state) => {
         state.loading = true;
       })
-      .addCase(addToCartAsync.fulfilled, (state, action) => {
+       .addCase(addToCartAsync.fulfilled, (state, action) => {
         state.loading = false;
-        state.cart.push(action.payload.product)
+        const existingProductIndex = state.cart.findIndex(item => item.id === action.payload.id);
+        if (existingProductIndex !== -1) {
+          // increase product quantity 
+          state.cart[existingProductIndex].quantity += 1
+        } else {
+          state.cart.push(action.payload)
+        }
+
+
+        // state.cart.push(action.payload.product)
         state.error = null;
       })
 
@@ -139,7 +148,13 @@ const cartSlice = createSlice({
       })
       .addCase(fetchCartAsync.fulfilled, (state, action) => {
         state.loading = false;
-        state.cart= action.payload
+        const existingProduct = state.cart.find(item => item.id === action.payload.id);
+        if(existingProduct){
+          existingProduct.quantity += 1
+        }else{
+          state.cart = action.payload
+        }
+        // state.cart = action.payload
         state.error = null;
       })
 
