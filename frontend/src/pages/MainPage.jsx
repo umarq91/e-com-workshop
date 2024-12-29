@@ -1,91 +1,112 @@
-import { Fragment, useEffect, useState } from 'react'
-import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
-import Product from "./Products"
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchProductByFilter } from '../features/products/productSlice'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import { ItemsPerPage } from '../constants'
+import { Fragment, useEffect, useState } from "react";
+import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  ChevronDownIcon,
+  FunnelIcon,
+  MinusIcon,
+  PlusIcon,
+  Squares2X2Icon,
+} from "@heroicons/react/20/solid";
+import Product from "./Products";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductByFilter } from "../features/products/productSlice";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import { ItemsPerPage } from "../constants";
 const sortOptions = [
-  { name: 'Best Rating', _sort: 'rating', current: false },
-  { name: 'Price: Low to High', _sort: 'price', current: false },
-]
+  { name: "Best Rating", _sort: "rating", current: false },
+  { name: "Price: Low to High", _sort: "price", current: false },
+];
 
 const items = [
-  { id: 1, title: 'Back End Developer', department: 'Engineering', type: 'Full-time', location: 'Remote' },
-  { id: 2, title: 'Front End Developer', department: 'Engineering', type: 'Full-time', location: 'Remote' },
-  { id: 3, title: 'User Interface Designer', department: 'Design', type: 'Full-time', location: 'Remote' },
-]
-
+  {
+    id: 1,
+    title: "Back End Developer",
+    department: "Engineering",
+    type: "Full-time",
+    location: "Remote",
+  },
+  {
+    id: 2,
+    title: "Front End Developer",
+    department: "Engineering",
+    type: "Full-time",
+    location: "Remote",
+  },
+  {
+    id: 3,
+    title: "User Interface Designer",
+    department: "Design",
+    type: "Full-time",
+    location: "Remote",
+  },
+];
 
 const filters = [
   {
-    id: 'category',
-    name: 'Category',
+    id: "category",
+    name: "Category",
     options: [
       { value: "smartphones", label: "smartphones", checked: false },
-      { value: 'laptops', label: 'laptops', checked: false },
-      { value: "fragrances", label: 'fragrances', checked: false },
+      { value: "laptops", label: "laptops", checked: false },
+      { value: "fragrances", label: "fragrances", checked: false },
       { value: "groceries", label: "groceries", checked: false },
       { value: "home-decoration", label: "home-decoration", checked: false },
-
     ],
   },
-
-]
+];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Example() {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-const [filter,setFilter] = useState({})
-const [sort,setSort] =  useState('')
-let [page,setPage] = useState(1)
-const dispatch = useDispatch()
-const [selectCategories,setSelectedCategories] = useState([])
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [filter, setFilter] = useState({});
+  const [sort, setSort] = useState("");
+  let [page, setPage] = useState(1);
+  const dispatch = useDispatch();
+  const [selectCategories, setSelectedCategories] = useState([]);
 
-const totalItems = useSelector((state) => state.products.totalProducts)
-const handleSort = (e,op) => {
-  const _sort = e.target
+  const totalItems = useSelector((state) => state.products.totalProducts);
+  const handleSort = (e, op) => {
+    const _sort = e.target;
 
-  setSort(op._sort)
-}
+    setSort(op._sort);
+  };
 
-useEffect(()=>{
-  dispatch(fetchProductByFilter({filter,page}))
-},[sort,filter,page])
+  useEffect(() => {
+    dispatch(fetchProductByFilter({ filter, page }));
+  }, [sort, filter, page]);
 
-
-const handleFilter = (e, section, option) => {
-
-  const newFilter = { ...filter };
-  if (e.target.checked) {
-    if (newFilter[section.id]) {
-      newFilter[section.id].push(option.value);
+  const handleFilter = (e, section, option) => {
+    const newFilter = { ...filter };
+    if (e.target.checked) {
+      if (newFilter[section.id]) {
+        newFilter[section.id].push(option.value);
+      } else {
+        newFilter[section.id] = [option.value];
+      }
     } else {
-      newFilter[section.id] = [option.value];
+      const index = newFilter[section.id].findIndex(
+        (el) => el === option.value
+      );
+      newFilter[section.id].splice(index, 1);
     }
-  } else {
-    const index = newFilter[section.id].findIndex(
-      (el) => el === option.value
-    );
-    newFilter[section.id].splice(index, 1);
-  }
+
+    setFilter(newFilter);
+  };
+
   
-
-   setFilter(newFilter);
-};
-
-
   return (
     <div className="bg-white">
       <div>
         {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
-          <Dialog className="relative z-40 lg:hidden" onClose={setMobileFiltersOpen}>
+          <Dialog
+            className="relative z-40 lg:hidden"
+            onClose={setMobileFiltersOpen}
+          >
             <Transition.Child
               as={Fragment}
               enter="transition-opacity ease-linear duration-300"
@@ -110,7 +131,9 @@ const handleFilter = (e, section, option) => {
               >
                 <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
                   <div className="flex items-center justify-between px-4">
-                    <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+                    <h2 className="text-lg font-medium text-gray-900">
+                      Filters
+                    </h2>
                     <button
                       type="button"
                       className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
@@ -124,20 +147,31 @@ const handleFilter = (e, section, option) => {
                   {/* Filters */}
                   <form className="mt-4 border-t border-gray-200">
                     <h3 className="sr-only">Categories</h3>
-                
 
                     {filters.map((section) => (
-                      <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
+                      <Disclosure
+                        as="div"
+                        key={section.id}
+                        className="border-t border-gray-200 px-4 py-6"
+                      >
                         {({ open }) => (
                           <>
                             <h3 className="-mx-2 -my-3 flow-root">
                               <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                                <span className="font-medium text-gray-900">{section.name}</span>
+                                <span className="font-medium text-gray-900">
+                                  {section.name}
+                                </span>
                                 <span className="ml-6 flex items-center">
                                   {open ? (
-                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                    <MinusIcon
+                                      className="h-5 w-5"
+                                      aria-hidden="true"
+                                    />
                                   ) : (
-                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                    <PlusIcon
+                                      className="h-5 w-5"
+                                      aria-hidden="true"
+                                    />
                                   )}
                                 </span>
                               </Disclosure.Button>
@@ -145,9 +179,14 @@ const handleFilter = (e, section, option) => {
                             <Disclosure.Panel className="pt-6">
                               <div className="space-y-6">
                                 {section.options.map((option, optionIdx) => (
-                                  <div key={option.value} className="flex items-center">
+                                  <div
+                                    key={option.value}
+                                    className="flex items-center"
+                                  >
                                     <input
-                                    onClick={(e)=>handleFilter(e,section,option)}
+                                      onClick={(e) =>
+                                        handleFilter(e, section, option)
+                                      }
                                       id={`filter-mobile-${section.id}-${optionIdx}`}
                                       name={`${section.id}`}
                                       defaultValue={option.value}
@@ -178,7 +217,9 @@ const handleFilter = (e, section, option) => {
 
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-12">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+              New Arrivals
+            </h1>
 
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
@@ -207,11 +248,13 @@ const handleFilter = (e, section, option) => {
                         <Menu.Item key={option.name}>
                           {({ active }) => (
                             <p
-                              onClick= { (e)=>handleSort(e,option)}
+                              onClick={(e) => handleSort(e, option)}
                               className={classNames(
-                                option.current ? 'font-medium text-gray-900' : 'text-gray-500',
-                                active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm'
+                                option.current
+                                  ? "font-medium text-gray-900"
+                                  : "text-gray-500",
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm"
                               )}
                             >
                               {option.name}
@@ -224,7 +267,10 @@ const handleFilter = (e, section, option) => {
                 </Transition>
               </Menu>
 
-              <button type="button" className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
+              <button
+                type="button"
+                className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
+              >
                 <span className="sr-only">View grid</span>
                 <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -248,20 +294,31 @@ const handleFilter = (e, section, option) => {
               {/* Filters */}
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
-             
 
                 {filters.map((section) => (
-                  <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
+                  <Disclosure
+                    as="div"
+                    key={section.id}
+                    className="border-b border-gray-200 py-6"
+                  >
                     {({ open }) => (
                       <>
                         <h3 className="-my-3 flow-root">
                           <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                            <span className="font-medium text-gray-900">{section.name}</span>
+                            <span className="font-medium text-gray-900">
+                              {section.name}
+                            </span>
                             <span className="ml-6 flex items-center">
                               {open ? (
-                                <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                <MinusIcon
+                                  className="h-5 w-5"
+                                  aria-hidden="true"
+                                />
                               ) : (
-                                <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                <PlusIcon
+                                  className="h-5 w-5"
+                                  aria-hidden="true"
+                                />
                               )}
                             </span>
                           </Disclosure.Button>
@@ -269,9 +326,14 @@ const handleFilter = (e, section, option) => {
                         <Disclosure.Panel className="pt-6">
                           <div className="space-y-4">
                             {section.options.map((option, optionIdx) => (
-                              <div key={option.value} className="flex items-center">
+                              <div
+                                key={option.value}
+                                className="flex items-center"
+                              >
                                 <input
-                                  onClick={(e)=>handleFilter(e,section,option)}
+                                  onClick={(e) =>
+                                    handleFilter(e, section, option)
+                                  }
                                   id={`filter-${section.id}-${optionIdx}`}
                                   name={`${section.id}`}
                                   defaultValue={option.value}
@@ -297,80 +359,96 @@ const handleFilter = (e, section, option) => {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                <Product/>
-            </div>
+                <Product />
+              </div>
             </div>
           </section>
-          <Pagination page={page} setPage={setPage} totalItems={totalItems}></Pagination>
+          <Pagination
+            page={page}
+            setPage={setPage}
+            totalItems={totalItems}
+          ></Pagination>
         </main>
       </div>
     </div>
-  )
+  );
 }
 
+const Pagination = ({ page, setPage, totalItems }) => {
+  const totalPages = Math.ceil(totalItems / ItemsPerPage);
 
-const Pagination=({page,setPage,totalItems})=>{
-  const totalPages =Math.ceil(totalItems / ItemsPerPage) 
-
-return (
-  <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-  <div className="flex flex-1 justify-between sm:hidden">
-    <div
-    onClick={()=>setPage(page==1?1:page-1)}
-      href="#"
-      className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-    >
-      Previous
-    </div>
-    <div
-    onClick={()=>setPage(page==totalPages?totalPages:page+1)}
-      href="#"
-      className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-    >
-      Next
-    </div>
-  </div>
-  <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-    <div>
-      <p className="text-sm text-gray-700">
-        Showing <span className="font-medium">{(page-1)* ItemsPerPage+1 }</span> to <span className="font-medium">{page*ItemsPerPage >totalItems ? totalItems:page*ItemsPerPage  }</span> of{' '}
-        <span className="font-medium">{totalItems}</span> results
-      </p>
-    </div>
-    <div>
-      <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+  return (
+    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+      <div className="flex flex-1 justify-between sm:hidden">
         <div
-      onClick={()=>setPage(page==1?1:page-1)}
+          onClick={() => setPage(page == 1 ? 1 : page - 1)}
           href="#"
-          className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-          <span className="sr-only">Previous</span>
-          <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+          Previous
         </div>
-        {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
-      
-     {Array.from({length:totalPages}).map((_, index) => (
-          <div
-          href="#"
-          onClick={()=>setPage(index+1)}
-          className={`relative cursor-pointer inline-flex items-center px-4 py-2 text-sm font-semibold ${page==index+1 ? 'bg-indigo-600 text-white':'bg-white'} text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-opacity-80 focus:z-20 focus:outline-offset-0`}
-        >
-          {index+1}
-        </div>
-     ))}
-        
         <div
-            onClick={()=>setPage(page==totalPages?totalPages:page+1)}
-
+          onClick={() => setPage(page == totalPages ? totalPages : page + 1)}
           href="#"
-          className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-          <span className="sr-only">Next</span>
-          <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+          Next
         </div>
-      </nav>
+      </div>
+      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+        <div>
+          <p className="text-sm text-gray-700">
+            Showing{" "}
+            <span className="font-medium">{(page - 1) * ItemsPerPage + 1}</span>{" "}
+            to{" "}
+            <span className="font-medium">
+              {page * ItemsPerPage > totalItems
+                ? totalItems
+                : page * ItemsPerPage}
+            </span>{" "}
+            of <span className="font-medium">{totalItems}</span> results
+          </p>
+        </div>
+        <div>
+          <nav
+            className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+            aria-label="Pagination"
+          >
+            <div
+              onClick={() => setPage(page == 1 ? 1 : page - 1)}
+              href="#"
+              className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            >
+              <span className="sr-only">Previous</span>
+              <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+            </div>
+            {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
+
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <div
+                href="#"
+                onClick={() => setPage(index + 1)}
+                className={`relative cursor-pointer inline-flex items-center px-4 py-2 text-sm font-semibold ${
+                  page == index + 1 ? "bg-indigo-600 text-white" : "bg-white"
+                } text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-opacity-80 focus:z-20 focus:outline-offset-0`}
+              >
+                {index + 1}
+              </div>
+            ))}
+
+            <div
+              onClick={() =>
+                setPage(page == totalPages ? totalPages : page + 1)
+              }
+              href="#"
+              className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            >
+              <span className="sr-only">Next</span>
+              <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+            </div>
+          </nav>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-)
-}
+  );
+};
