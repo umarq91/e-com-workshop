@@ -12,7 +12,7 @@ const navigation = [
 
 const userNavigation = [
   { name: 'My Profile', link: '/profile' },
-  { name: 'My Orders', link: '/my-orders' },
+  { name: 'My Orders', link: '/orders' },
   { name: 'Sign out', link: '/logout' },
 ];
 
@@ -48,7 +48,7 @@ function NavBar({ children }) {
                       <div className="hidden md:block">
                         <div className="ml-10 flex items-baseline space-x-4">
                           {navigation.map((item) =>
-                            (item?.user && !userInfo.isAdmin) || (item.admin && userInfo.isAdmin) ? (
+                            (item?.user && !userInfo?.isAdmin) || (item.admin && userInfo?.isAdmin) ? (
                               <Link
                                 key={item.name}
                                 to={item.link}
@@ -94,7 +94,7 @@ function NavBar({ children }) {
                               <span className="sr-only">Open user menu</span>
                               <img
                                 className="h-8 w-8 rounded-full"
-                                src={userInfo.imageUrl||"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
+                                src={userInfo?.imageUrl||"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"}
                                 alt=""
                               />
                             </Menu.Button>
@@ -151,8 +151,8 @@ function NavBar({ children }) {
 
                 <Disclosure.Panel className="md:hidden">
                   <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                    {navigation.map((item) =>
-                      (item.user && !userInfo.isAdmin) || (item.admin && userInfo.isAdmin) ? (
+                    {navigation?.map((item) =>
+                      (item?.user && !userInfo?.isAdmin) || (item.admin && userInfo?.isAdmin) ? (
                         <Disclosure.Button
                           key={item.name}
                           as="a"
@@ -175,16 +175,16 @@ function NavBar({ children }) {
                       <div className="flex-shrink-0">
                         <img
                           className="h-10 w-10 rounded-full"
-                          src={userInfo.imageUrl}
+                          src={userInfo?.imageUrl}
                           alt=""
                         />
                       </div>
                       <div className="ml-3">
                         <div className="text-base font-medium leading-none text-white">
-                          {userInfo.name}
+                          {userInfo?.name}
                         </div>
                         <div className="text-sm font-medium leading-none text-gray-400">
-                          {userInfo.email}
+                          {userInfo?.email}
                         </div>
                       </div>
                       <Link to="/cart">

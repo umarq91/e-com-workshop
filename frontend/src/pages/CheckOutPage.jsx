@@ -42,7 +42,7 @@ function CheckOutPage() {
 
      const handleAddress = (index) => {
        // Since e can't pass object in html
-       setSelectedAddress(user.addresses[index]);
+       setSelectedAddress(user?.addresses[index]);
      };
 
      const handlePaymentMethod = (e) => {
@@ -270,7 +270,7 @@ function CheckOutPage() {
                   </p>
 
                   <ul role="list" >
-      { user.addresses.map((address,index) => (
+      { user?.addresses.map((address,index) => (
         <li key={index} className="flex justify-between p-4 gap-x-6 py-5 border-solid border-2 border-gray-200">
           <div className="flex min-w-0 gap-x-4 ">
         
