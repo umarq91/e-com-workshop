@@ -5,8 +5,8 @@ import { verifyToken } from "../middlewares/userVerification.js";
 
 const router = Router();
 
-router.post('/',verifyToken,addToCart)
-.get('/',verifyToken,fetchCart)
+router.get('/',verifyToken,fetchCart)
+.post('/',verifyToken,addToCart)
 .patch('/:id',verifyToken,updateCart)
 .delete('/:id',verifyToken,deleteFromCart)
 .put('/empty',verifyToken,emptyCart)

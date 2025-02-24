@@ -36,7 +36,7 @@ export default function CartPage() {
               <li key={item.product._id} className="flex py-6">
                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                   <img
-                    src={item.product.thumbnail}
+                    src={item.product?.images[0] || "https://cdn.shopify.com/s/files/1/1246/6441/articles/Shopify_Retail_BlogHeader_Product_Samples_FA.jpg?v=1727355120"}
                     alt={item.product.title}
                     className="h-full w-full object-cover object-center"
                   />

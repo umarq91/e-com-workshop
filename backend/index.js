@@ -10,6 +10,8 @@ import cartRoutes from "./routes/cart.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import mongoose from "mongoose";
+import { upload } from "./middlewares/multer.js";
+import uploadOnCloudinary from "./utils/Cloudinary.js";
 
 env.config();
 
@@ -25,17 +27,38 @@ app.use(cookieParser());
 
 export const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log("Coming");
+
+    const conn = await mongoose.connect(
+      "mongodb+srv://umer:123@cluster0.nszpwqv.mongodb.net/ecom?retryWrites=true&w=majority&appName=Cluster0"
+    );
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`Error: ${error.message}`);
     process.exit(1);
   }
 };
+
 connectDB();
+console.log({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.apikey,
+  api_secret: process.env.apisecret,
+});
 
 app.listen(5000, () => console.log("server running on port 5000"));
 
+app.post("/test", upload.array("images", 10), async (req, res) => {
+  const cloudinaryURLs = [];
+  const images = req.files;
+
+  for (let img of images) {
+    const res = await uploadOnCloudinary(img.path);
+    cloudinaryURLs.push(res.url);
+  }
+  console.log(cloudinaryURLs);
+  res.json({ url: cloudinaryURLs });
+});
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/products", ProductRoutes);
 app.use("/api/v1/cart", cartRoutes);

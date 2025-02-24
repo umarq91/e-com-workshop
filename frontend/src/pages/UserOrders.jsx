@@ -40,7 +40,7 @@ export default function UserOrders() {
                   <li key={product.id} className="flex py-6">
                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                       <img
-                        src={product.product.thumbnail}
+                        src={product.product?.images[0] || "https://cdn.shopify.com/s/files/1/1246/6441/articles/Shopify_Retail_BlogHeader_Product_Samples_FA.jpg?v=1727355120"}
                         alt={product.product.title}
                         className="h-full w-full object-cover object-center"
                       />

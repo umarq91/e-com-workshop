@@ -129,7 +129,7 @@ function AdminOrders() {
                           <div className="mr-2">
                             <img
                               className="w-6 h-6 rounded-full"
-                              src={item.thumbnail}
+                              src={item?.images[0]}
                             />
                           </div>
                           <span>

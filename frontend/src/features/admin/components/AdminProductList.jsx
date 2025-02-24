@@ -497,7 +497,7 @@ function ProductGrid({ products }) {
                 <div className="group relative border-solid border-2 p-2 border-gray-200">
                   <div className="min-h-60 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-60">
                     <img
-                      src={product.thumbnail}
+                      src={product?.images[0] || "https://cdn.shopify.com/s/files/1/1246/6441/articles/Shopify_Retail_BlogHeader_Product_Samples_FA.jpg?v=1727355120"}
                       alt={product.title}
                       className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                     />
@@ -505,7 +505,7 @@ function ProductGrid({ products }) {
                   <div className="mt-4 flex justify-between">
                     <div>
                       <h3 className="text-sm text-gray-700">
-                        <div href={product.thumbnail}>
+                        <div href={product?.images[0] || "https://cdn.shopify.com/s/files/1/1246/6441/articles/Shopify_Retail_BlogHeader_Product_Samples_FA.jpg?v=1727355120"}>
                           <span
                             aria-hidden="true"
                             className="absolute inset-0"

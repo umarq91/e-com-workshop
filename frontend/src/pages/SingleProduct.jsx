@@ -75,6 +75,7 @@ export default function SingleProduct() {
     dispatch(fetchSingleProduct(id));
   }, []);
   const product = useSelector((state) => state.products.selectedProduct);
+console.log(product);
 
   const handleAddTocart = (e) => {
     e.preventDefault();
@@ -135,11 +136,11 @@ export default function SingleProduct() {
 
         {/* Image gallery */}
         {/* TODO */}
-        {/* <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+        <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
             <img
-              src={product.images[0]}
-              alt={product.images[0]}
+              src={product?.images[0] || "https://cdn.shopify.com/s/files/1/1246/6441/articles/Shopify_Retail_BlogHeader_Product_Samples_FA.jpg?v=1727355120"}
+              alt={product?.images[0] || "https://cdn.shopify.com/s/files/1/1246/6441/articles/Shopify_Retail_BlogHeader_Product_Samples_FA.jpg?v=1727355120"}
               className="h-full w-full object-cover object-center"
             />
           </div>
@@ -172,7 +173,7 @@ export default function SingleProduct() {
               className="h-full w-full object-cover object-center"
             />
           </div>
-        </div> */}
+        </div>
 
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
@@ -186,7 +187,7 @@ export default function SingleProduct() {
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
             <p className="text-3xl tracking-tight text-gray-900">
-              {product.price}
+              {product.price} Rs.
             </p>
 
             {/* Reviews */}
@@ -219,7 +220,7 @@ export default function SingleProduct() {
 
             <form className="mt-10">
               {/* Colors */}
-              <div>
+              {/* <div>
                 <h3 className="text-sm font-medium text-gray-900">Color</h3>
 
                 <RadioGroup
@@ -258,10 +259,10 @@ export default function SingleProduct() {
                     ))}
                   </div>
                 </RadioGroup>
-              </div>
+              </div> */}
 
               {/* Sizes */}
-              <div className="mt-10">
+              {/* <div className="mt-10">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-medium text-gray-900">Size</h3>
                   <a
@@ -339,7 +340,7 @@ export default function SingleProduct() {
                     ))}
                   </div>
                 </RadioGroup>
-              </div>
+              </div> */}
 
               <button
                 onClick={(e) => handleAddTocart(e)}

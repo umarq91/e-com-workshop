@@ -44,7 +44,7 @@ console.log(products);
               <Link to={`/product/${product.id}`} className="no-underline">
                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                   <img
-                    src={product.thumbnail || "https://cdn.shopify.com/s/files/1/1246/6441/articles/Shopify_Retail_BlogHeader_Product_Samples_FA.jpg?v=1727355120"}
+                    src={product?.images[0] || "https://cdn.shopify.com/s/files/1/1246/6441/articles/Shopify_Retail_BlogHeader_Product_Samples_FA.jpg?v=1727355120"}
                     alt={product.image}
                     className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                   />
@@ -53,7 +53,7 @@ console.log(products);
                   <div>
                     <h3 className="text-sm font-semibold text-gray-900">
                       <span aria-hidden="true" className="absolute inset-0" />
-                      {product.name}
+                      {product.title}
                     </h3>
                     <p className="mt-1 text-sm text-gray-500">Rating: {product.rating}</p>
                   </div>

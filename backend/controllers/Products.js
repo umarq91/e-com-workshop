@@ -4,7 +4,8 @@ import {ProductModel } from "../models/ProductModel.js";
 export const addProduct = async (req, res) => {
     try {
 
-   
+        console.log(req.body);
+        
         const products = await ProductModel.create(req.body);
         res.status(200).json(products);
     }catch(err){
@@ -15,9 +16,8 @@ export const addProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
     try {
-        let query = ProductModel.find({});
+        let query = ProductModel.find({deleted:false});
         
-        console.log(req.query);
         if (req.query.category) {
             // category = smartphones, laptops $in:[smartphones, laptops]
             query = query.find({ category: { $in: req.query.category.split(',') } });
